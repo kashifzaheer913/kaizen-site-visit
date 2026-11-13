@@ -19,6 +19,7 @@ header{background:linear-gradient(135deg,#0f172a,#1e293b 70%,#334155);color:#fff
 .top h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
 .top small{display:block;font-size:12px;color:#cbd5e1;margin-top:1px}
 .ib{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:12px;width:40px;height:40px;font-size:19px;display:flex;align-items:center;justify-content:center}
+.ib.spin{animation:kspin .7s linear infinite}@keyframes kspin{to{transform:rotate(360deg)}}
 .ib:active{background:rgba(255,255,255,.25)}
 .sr{display:flex;gap:8px;margin-top:12px}
 .sbox{flex:1;position:relative}
@@ -139,7 +140,7 @@ body.sm .selbar{display:flex}
   <div class="g2">
     <div><span class="lbl">From date</span><input type="date" id="from"></div>
     <div><span class="lbl">To date</span><input type="date" id="to"></div>
-    <div><span class="lbl">Site Size</span><select id="fSize"><option value="">All</option><option>Marla</option><option>Canal</option></select></div>
+    <div><span class="lbl">Site Size</span><select id="fSize"><option value="">All</option><option value="Marla">Marla</option><option value="Canal">Kanal</option></select></div>
     <div><span class="lbl">Paint time</span><select id="fCond"><option value="">All</option><option>Day</option><option>Week</option><option>Month</option><option>Year</option></select></div>
   </div>
   <div style="margin-top:10px"><span class="lbl">Site Type</span><select id="fType"><option value="">All</option></select></div>
@@ -254,16 +255,39 @@ const inflight = new Set();
 function toast(msg, cls){ const t=$('toast'); t.textContent=msg; t.className='toast '+(cls||''); t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2600); }
 const key = r => r.row ? 'r'+r.row : 'p'+(r._pid || (r._pid = uid()));
 
+
+/* ---- date normalizer: 9/9/2026, 09-Sep-2026, 2026-09-09 sab ISO ban jayen ---- */
+let DMY = true;
+const MI = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+function detectOrder(list){
+  let a=0,b=0;
+  list.forEach(r => { const m=/^\s*(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/.exec(r.date||''); if(!m) return; if(+m[1]>12) a++; if(+m[2]>12) b++; });
+  if (a>b) DMY=true; else if (b>a) DMY=false; else DMY=true;
+}
+function normDate(v){
+  v = String(v==null?'':v).trim(); if(!v) return '';
+  let m=/^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(v); if(m) return m[1]+'-'+p2(+m[2])+'-'+p2(+m[3]);
+  m=/^(\d{1,2})[\/\-.\s]([A-Za-z]{3})[a-z]*[\/\-.\s,]*(\d{2,4})/.exec(v);
+  if(m && MI[m[2].toLowerCase()]){ let y=+m[3]; if(y<100) y+=2000; return y+'-'+p2(MI[m[2].toLowerCase()])+'-'+p2(+m[1]); }
+  m=/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/.exec(v);
+  if(m){ let a=+m[1], b=+m[2], y=+m[3]; if(y<100) y+=2000; let d=DMY?a:b, mo=DMY?b:a; if(mo>12){ const t=d; d=mo; mo=t; } return y+'-'+p2(mo)+'-'+p2(d); }
+  return v;
+}
+function fixDates(list){ detectOrder(list); list.forEach(r => { r.date = normDate(r.date); delete r._h; }); }
+function expand(x){ return Array.isArray(x) ? {row:x[0],date:x[1],ownerName:x[2],ownerMob:x[3],size:x[4],type:x[5],meetName:x[6],meetMob:x[7],address:x[8],condition:x[9],ticket:x[10]} : x; }
+
 /* ================= DATA LIST ================= */
 function hay(r){ return (r._h ||= (r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+r.date).toLowerCase()); }
 const sortKey = r => r.row || 1e9;
+const szRe = v => v==='canal'||v==='kanal' ? /[ck]anal/i : v==='marla' ? /marl/i : new RegExp(v,'i');
+const cdRe = v => ({day:/day|din/i, week:/week|hafta|haft/i, month:/month|mah|maah/i, year:/year|saal|sal/i}[v] || new RegExp(v,'i'));
 function compute(){
   const toks = $('q').value.toLowerCase().split(/\s+/).filter(Boolean);
   const f=$('from').value, t=$('to').value, sz=$('fSize').value.toLowerCase(), cd=$('fCond').value.toLowerCase(), ty=$('fType').value;
   let l = rows.filter(r =>
     (!f || r.date>=f) && (!t || r.date<=t) &&
-    (!sz || (r.size||'').toLowerCase().includes(sz)) &&
-    (!cd || (r.condition||'').toLowerCase().includes(cd)) &&
+    (!sz || szRe(sz).test(r.size||'')) &&
+    (!cd || cdRe(cd).test(r.condition||'')) &&
     (!ty || r.type===ty) &&
     toks.every(k => hay(r).includes(k)));
   l.sort((a,b) => a.date<b.date?1:a.date>b.date?-1:sortKey(b)-sortKey(a));
@@ -350,17 +374,22 @@ function cacheRows(){
 
 /* ================= NETWORK ================= */
 const maxRow = () => rows.reduce((m,r) => Math.max(m, r.row||0), 1);
+let loading=false;
 async function load(full){
-  if (!URL_) return false;
+  if (!URL_ || loading) return false;
+  loading=true; $('btnRef').classList.add('spin');
+  const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 25000);
   try {
     const after = full ? 1 : maxRow();
-    const r = await fetch(URL_+'?after='+after); const j = await r.json();
+    const r = await fetch(URL_+'?after='+after+'&c=1', {signal:ctl.signal}); const j = await r.json();
     if (!j.ok) throw 0;
-    if (!full && j.last < after) return load(true);
-    if (full) rows = j.rows.concat(rows.filter(x => !x.row && (inflight.has(x._pid) || pending.some(p => !p.action && p._pid && p._pid===x._pid))));
-    else if (j.rows.length) { const have=new Set(rows.map(x=>x.row)); j.rows.forEach(x => { if(!have.has(x.row)) rows.push(x); }); }
-    cacheRows(); render(); return true;
+    const got = (j.rows||[]).map(expand);
+    if (!full && j.last < after) { loading=false; return load(true); }
+    if (full) { rows = got.concat(rows.filter(x => !x.row && (inflight.has(x._pid) || pending.some(p => !p.action && p._pid && p._pid===x._pid)))); }
+    else if (got.length) { const have=new Set(rows.map(x=>x.row)); got.forEach(x => { if(!have.has(x.row)) rows.push(x); }); }
+    fixDates(rows); cacheRows(); render(); return true;
   } catch(e){ return false; }
+  finally { clearTimeout(to); loading=false; $('btnRef').classList.remove('spin'); }
 }
 async function send(payload){
   const r = await fetch(URL_, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
@@ -375,7 +404,7 @@ async function syncPending(){
   pending = left; savePending();
   if (n) { toast(n+' offline change sync ho gaye','ok'); load(true); }
 }
-$('btnRef').onclick = async () => { $('sub').textContent='refreshing...'; const ok = await load(true); toast(ok?'Sheet se refresh ho gaya':'Connection fail - URL check karein', ok?'ok':'bad'); render(); };
+$('btnRef').onclick = async () => { render(); const ok = await load(true); toast(ok?'Refresh ho gaya ('+rows.length+' records)':'Connection fail - URL check karein', ok?'ok':'bad'); };
 
 /* ================= FORM ================= */
 function chipGet(g){ const a=$(g).querySelector('.chip.on'); return a ? a.dataset.v : ''; }
@@ -722,9 +751,11 @@ function goBack(){
   $('date').value = todayISO();
   pending.forEach(p => { if (!p.action && !p._pid) p._pid = uid(); });
   rows.forEach(r => { if (!r.row && !r._pid) { const m=pending.find(p=>!p.action && JSON.stringify(vals(p))===JSON.stringify(vals(r))); if (m) r._pid=m._pid; } });
-  cacheRows(); savePending(); render();
+  fixDates(rows); cacheRows(); savePending(); render();
   if (!URL_) { $('set').classList.add('on'); }
-  else load(false).then(syncPending);
+  else load(true).then(()=>syncPending());
+  let lastVis=Date.now();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now()-lastVis>15000 && !pending.length) { lastVis=Date.now(); load(false); } });
   window.addEventListener('online', () => syncPending().then(()=>load(false)));
 })();
 </script>
