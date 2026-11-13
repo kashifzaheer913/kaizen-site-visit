@@ -545,7 +545,13 @@ function rangeText(){
   if (f&&t) return fmt(f)+' to '+fmt(t); if (f) return 'From '+fmt(f); if (t) return 'Up to '+fmt(t); return 'All dates';
 }
 const expRange = () => expTag==='sel' ? 'Selected records' : rangeText();
-function fileBase(){ if (expTag==='sel') return 'Kaizen_Site_Visits_Selected_'+todayISO(); const f=$('from').value, t=$('to').value; return 'Kaizen_Site_Visits_'+((f||t)?((f||'start')+'_to_'+(t||'today')):'All'); }
+function fileBase(){
+  const ds = expItems.map(r=>r.date).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)).sort();
+  const dmy = iso => iso.slice(8,10)+'_'+iso.slice(5,7)+'_'+iso.slice(0,4);
+  let rng = '';
+  if (ds.length) rng = ds[0]===ds[ds.length-1] ? dmy(ds[0]) : dmy(ds[0])+' to '+dmy(ds[ds.length-1]);
+  return 'Kashif Zaheer Kaizen Report'+(rng?' ('+rng+')':'');
+}
 function openExport(list, tag){
   if (!list.length) return toast('Export ke liye koi record nahi','bad');
   expTag = tag;
