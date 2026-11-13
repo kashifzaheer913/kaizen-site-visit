@@ -1,0 +1,8 @@
+{
+  "appId": "com.kaizen.sitevisit",
+  "appName": "Kaizen",
+  "webDir": "www",
+  "plugins": {
+    "CapacitorHttp": { "enabled": true }
+  }
+}
