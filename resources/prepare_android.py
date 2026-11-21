@@ -43,3 +43,16 @@ home = os.path.expanduser('~/.android')
 os.makedirs(home, exist_ok=True)
 shutil.copy('resources/debug.keystore', f'{home}/debug.keystore')
 print('prepare_android done')
+
+# 5) Google login: Web Client ID ko Android strings.xml me bhi likhna (plugin yahan se bhi parhta hai)
+import json
+try:
+    cid = json.load(open('capacitor.config.json'))['plugins']['GoogleAuth']['serverClientId']
+    sx = f'{RES}/values/strings.xml'
+    t = open(sx, encoding='utf8').read()
+    if 'server_client_id' not in t:
+        t = t.replace('</resources>', f'    <string name="server_client_id">{cid}</string>\n</resources>')
+        open(sx, 'w', encoding='utf8').write(t)
+    print('google client id set')
+except Exception as e:
+    print('google client id step skipped:', e)

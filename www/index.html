@@ -117,6 +117,34 @@ body.sm .selbar{display:flex}
 .btn.dng{background:#dc2626}
 .sheet{animation:su .22s ease}@keyframes su{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 .fab{display:flex;align-items:center;gap:8px}.fab svg{width:18px;height:18px;stroke:#1c1204;fill:none;stroke-width:3;stroke-linecap:round}
+
+/* login */
+#login{display:none;position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#0f172a,#1e293b 65%,#334155);color:#fff;align-items:center;justify-content:center;padding:24px;text-align:center;overflow:auto}
+#login.on{display:flex}
+#login .box{width:100%;max-width:360px}
+#login img{width:86px;height:86px;background:#fff;border-radius:24px;padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+#login h1{margin:18px 0 4px;font-size:26px}
+#login p{margin:0 0 26px;color:#cbd5e1;font-size:14px}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#0f172a;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.gbtn svg{width:22px;height:22px}
+.gbtn:disabled{opacity:.6}
+#gweb{display:flex;justify-content:center;min-height:44px}
+#loginErr{margin-top:14px;color:#fecaca;font-size:13.5px;min-height:18px}
+#login input{margin-top:14px;text-align:center}
+/* user box in settings */
+.me{display:flex;align-items:center;gap:12px;background:#f8fafc;border-radius:14px;padding:12px;margin-bottom:14px}
+.me .av{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex:none}
+.me b{display:block;font-size:15px;word-break:break-word}.me span{font-size:12.5px;color:var(--mute);word-break:break-all}
+/* today city */
+.tcity{width:100%;display:flex;align-items:center;gap:12px;border:0;background:#fff;border-radius:14px;padding:11px 14px;margin:0 0 12px;text-align:left;box-shadow:0 2px 10px rgba(15,23,42,.06);border-left:4px solid #cbd5e1}
+.tcity.set{border-left-color:var(--ok);background:#f0fdf4}
+.tcity svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2;flex:none}
+.tcity div{flex:1;min-width:0}.tcity small{display:block;font-size:11.5px;color:var(--mute);font-weight:600}
+.tcity b{display:block;font-size:16px}.tcity i{font-style:normal;color:var(--mute);font-size:13px;font-weight:700}
+.tag.loc{background:#ccfbf1;color:#0f766e}
+.cpl{max-height:46vh;overflow:auto;margin:10px 0 12px;border:1.5px solid var(--line);border-radius:12px}
+.cpi{padding:11px 13px;border-bottom:1px solid var(--line)}.cpi:last-child{border:0}
+.cpi:active{background:#f1f5f9}.cpi b{display:block;font-size:15px}.cpi span{font-size:12px;color:var(--mute)}
 </style>
 </head>
 <body>
@@ -144,11 +172,13 @@ body.sm .selbar{display:flex}
     <div><span class="lbl">Paint time</span><select id="fCond"><option value="">All</option><option>Day</option><option>Week</option><option>Month</option><option>Year</option></select></div>
   </div>
   <div style="margin-top:10px"><span class="lbl">Site Type</span><select id="fType"><option value="">All</option></select></div>
+  <div style="margin-top:10px"><span class="lbl">City</span><select id="fCity"><option value="">All</option></select></div>
   <label class="chk"><input type="checkbox" id="fUniq"> Har site ka sirf latest record</label>
   <button class="btn sc" id="fReset" style="margin-top:4px">Reset filters</button>
 </div>
 
 <main>
+  <button class="tcity" id="tcity"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><div><small>Today city (aaj ki sari entries isi city ki)</small><b id="tcityTxt">Select karein</b></div><i>Change</i></button>
   <div class="pend" id="pend"></div>
   <div class="stats" id="stats"></div>
   <div class="bar">
@@ -182,6 +212,7 @@ body.sm .selbar{display:flex}
       <div class="f"><label>Owner Name</label><input id="ownerName" autocomplete="off" placeholder="Type karein, purana record aa jayega"><div class="sug" id="sug_ownerName"></div></div>
       <div class="f"><label>Owner Mob</label><input id="ownerMob" autocomplete="off" inputmode="tel" placeholder="03xx-xxxxxxx"><div class="sug" id="sug_ownerMob"></div></div>
       <div class="f"><label>Site Address</label><input id="address" autocomplete="off" placeholder="e.g. H#6,7 Eden Orchard"><div class="sug" id="sug_address"></div></div>
+      <div class="f"><label>City</label><input id="city" autocomplete="off" placeholder="City / town likhein aur list se chunein"><div class="sug" id="sug_city"></div></div>
     </div>
     <div class="sec">
       <div class="f"><label>Site Size</label><input id="sizeNum" inputmode="decimal" autocomplete="off" placeholder="2, 4, 5 ...">
@@ -217,15 +248,38 @@ body.sm .selbar{display:flex}
 
 <!-- SETTINGS SHEET -->
 <div class="ov" id="set"><div class="sheet">
-  <h2>Settings</h2><p>Google Script Web App URL</p>
+  <h2>Settings</h2><p>Aap ka account</p>
+  <div class="me"><div class="av" id="meAv">?</div><div><b id="meName"></b><span id="meMail"></span></div></div>
+  <div id="urlBox" style="display:none"><p style="margin-bottom:8px">Google Script Web App URL</p>
   <div class="f"><input id="url" placeholder="https://script.google.com/macros/s/.../exec"></div>
-  <button class="btn" id="saveUrl">Save &amp; Test</button>
+  <button class="btn" id="saveUrl">Save &amp; Test</button></div>
+  <button class="btn dng" id="logout" style="margin-top:10px">Logout</button>
   <button class="btn sc" id="setClose">Close</button>
+</div></div>
+
+<!-- CITY PICKER -->
+<div class="ov" id="cityOv"><div class="sheet">
+  <h2>Today city</h2><p>City ya town likhein, list se chunein. Aaj ki nayi entries isi city me jayengi.</p>
+  <input id="cpQ" autocomplete="off" placeholder="Search city / town...">
+  <div class="cpl" id="cpList"></div>
+  <button class="btn sc" id="cpClear" style="margin-top:0">Today city hata dein</button>
+  <button class="btn sc" id="cpClose">Cancel</button>
+</div></div>
+
+<!-- LOGIN -->
+<div id="login"><div class="box">
+  <img src="logo.png" alt="">
+  <h1>Kaizen</h1><p>Apni Google ID se login karein. Aap ka data sirf aap ko nazar aaye ga.</p>
+  <input id="loginUrl" placeholder="Google Script Web App URL" style="display:none">
+  <button class="gbtn" id="gNative"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Google se login</button>
+  <div id="gweb" style="display:none"></div>
+  <div id="loginErr"></div>
 </div></div>
 
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
+<script src="cities.js"></script>
 <script>
 
 const $ = id => document.getElementById(id);
@@ -245,7 +299,10 @@ const IC_DEL='<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5
 const IC_CK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
 const cfgUrl = (window.APP_CONFIG && APP_CONFIG.url) || '';
+const CLIENT_ID = (window.APP_CONFIG && APP_CONFIG.clientId) || '';
 let URL_ = cfgUrl || LS.getItem('url') || '';
+let SESSION = jget('session', null);
+if (SESSION && !(SESSION.token && SESSION.exp > Date.now())) SESSION = null;
 let rows = jget('rows', []);
 let pending = jget('pending', []);
 let siteIdx = null, shown = 50, view = [], keyMap = {};
@@ -274,21 +331,22 @@ function normDate(v){
   return v;
 }
 function fixDates(list){ detectOrder(list); list.forEach(r => { r.date = normDate(r.date); delete r._h; }); }
-function expand(x){ return Array.isArray(x) ? {row:x[0],date:x[1],ownerName:x[2],ownerMob:x[3],size:x[4],type:x[5],meetName:x[6],meetMob:x[7],address:x[8],condition:x[9],ticket:x[10]} : x; }
+function expand(x){ return Array.isArray(x) ? {row:x[0],date:x[1],ownerName:x[2],ownerMob:x[3],size:x[4],type:x[5],meetName:x[6],meetMob:x[7],address:x[8],condition:x[9],ticket:x[10],city:x[11]||''} : x; }
 
 /* ================= DATA LIST ================= */
-function hay(r){ return (r._h ||= (r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+r.date).toLowerCase()); }
+function hay(r){ return (r._h ||= (r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+(r.city||'')+' '+r.date).toLowerCase()); }
 const sortKey = r => r.row || 1e9;
 const szRe = v => v==='canal'||v==='kanal' ? /[ck]anal/i : v==='marla' ? /marl/i : new RegExp(v,'i');
 const cdRe = v => ({day:/day|din/i, week:/week|hafta|haft/i, month:/month|mah|maah/i, year:/year|saal|sal/i}[v] || new RegExp(v,'i'));
 function compute(){
   const toks = $('q').value.toLowerCase().split(/\s+/).filter(Boolean);
-  const f=$('from').value, t=$('to').value, sz=$('fSize').value.toLowerCase(), cd=$('fCond').value.toLowerCase(), ty=$('fType').value;
+  const f=$('from').value, t=$('to').value, sz=$('fSize').value.toLowerCase(), cd=$('fCond').value.toLowerCase(), ty=$('fType').value, ct=$('fCity').value;
   let l = rows.filter(r =>
     (!f || r.date>=f) && (!t || r.date<=t) &&
     (!sz || szRe(sz).test(r.size||'')) &&
     (!cd || cdRe(cd).test(r.condition||'')) &&
     (!ty || r.type===ty) &&
+    (!ct || (r.city||'')===ct) &&
     toks.every(k => hay(r).includes(k)));
   l.sort((a,b) => a.date<b.date?1:a.date>b.date?-1:sortKey(b)-sortKey(a));
   if ($('fUniq').checked) {
@@ -307,7 +365,7 @@ function renderStats(){
 }
 function render(){
   view = compute(); keyMap = {};
-  const nf = ['from','to','fSize','fCond','fType'].filter(i=>$(i).value).length + ($('fUniq').checked?1:0);
+  const nf = ['from','to','fSize','fCond','fType','fCity'].filter(i=>$(i).value).length + ($('fUniq').checked?1:0);
   $('fcnt').style.display = nf?'inline':'none'; $('fcnt').textContent = nf;
   $('count').textContent = view.length+' of '+rows.length+' records';
   const part = view.slice(0, shown);
@@ -317,17 +375,17 @@ function render(){
     return '<div class="card'+(sel.has(k)?' sel':'')+'" data-k="'+k+'"><div class="ck">'+IC_CK+'</div><div class="dt">'+dateTile(r.date)+'</div><div class="bd">'+
     '<h3>'+esc(r.address||'-')+'</h3>'+
     '<p>'+esc(r.ownerName)+(r.ownerMob?' &middot; <a href="tel:'+esc(digits(r.ownerMob))+'">'+esc(r.ownerMob)+'</a>':'')+'</p>'+
-    '<div class="tags">'+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">#'+esc(r.ticket)+'</span>':'')+'</div>'+
+    '<div class="tags">'+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.city?'<span class="tag loc">'+esc(r.city)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">#'+esc(r.ticket)+'</span>':'')+'</div>'+
     (r.meetName?'<p style="margin-top:6px">Met: '+esc(r.meetName)+(r.meetMob?' ('+esc(r.meetMob)+')':'')+'</p>':'')+
     '<div class="acts"><button class="ab" data-a="rv">'+IC_REV+'Revisit</button><button class="ab ed" data-a="ed">'+IC_ED+'Edit</button><button class="ab dl" data-a="dl">'+IC_DEL+'Delete</button></div></div></div>'; }).join('')
     : '<div class="empty">Koi record nahi mila</div>';
   $('more').style.display = view.length>shown ? 'block' : 'none';
-  $('sub').textContent = rows.length+' records in sheet';
+  $('sub').textContent = (SESSION ? SESSION.name+' \u00b7 ' : '')+rows.length+' records';
   renderStats(); updSel();
 }
 let _d; $('q').addEventListener('input', () => { clearTimeout(_d); _d=setTimeout(()=>{shown=50;render();},150); });
-['from','to','fSize','fCond','fType','fUniq'].forEach(i => $(i).addEventListener('change', () => {shown=50;render();}));
-$('fReset').onclick = () => { ['from','to','fSize','fCond','fType'].forEach(i=>$(i).value=''); $('fUniq').checked=false; shown=50; render(); };
+['from','to','fSize','fCond','fType','fCity','fUniq'].forEach(i => $(i).addEventListener('change', () => {shown=50;render();}));
+$('fReset').onclick = () => { ['from','to','fSize','fCond','fType','fCity'].forEach(i=>$(i).value=''); $('fUniq').checked=false; shown=50; render(); };
 $('btnFlt').onclick = () => $('flt').classList.toggle('on');
 $('more').onclick = () => { shown+=50; render(); };
 
@@ -370,19 +428,37 @@ function cacheRows(){
   const cur = $('fType').value;
   $('fType').innerHTML = '<option value="">All</option>'+types.map(t=>'<option>'+esc(t)+'</option>').join('');
   $('fType').value = types.includes(cur) ? cur : '';
+  const cs = new Set(); rows.forEach(r => r.city && cs.add(r.city.trim()));
+  const cities = [...cs].sort(), cc = $('fCity').value;
+  $('fCity').innerHTML = '<option value="">All</option>'+cities.map(t=>'<option>'+esc(t)+'</option>').join('');
+  $('fCity').value = cities.includes(cc) ? cc : '';
+  CITY_ALL = null;
 }
 
 /* ================= NETWORK ================= */
 const maxRow = () => rows.reduce((m,r) => Math.max(m, r.row||0), 1);
 let loading=false;
+async function rawPost(payload, signal){
+  const r = await fetch(URL_, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload), signal });
+  return r.json();
+}
+function authExpired(){
+  if (!SESSION) return;
+  SESSION = null; LS.removeItem('session'); showLogin('Login ka waqt khatam ho gaya, dobara login karein.');
+}
+async function api(payload, signal){
+  if (!SESSION) throw new Error('auth');
+  const j = await rawPost(Object.assign({}, payload, { token: SESSION.token }), signal);
+  if (!j.ok) { if (j.error==='auth') authExpired(); throw new Error(j.error||'fail'); }
+  return j;
+}
 async function load(full){
-  if (!URL_ || loading) return false;
+  if (!URL_ || !SESSION || loading) return false;
   loading=true; $('btnRef').classList.add('spin');
   const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 25000);
   try {
     const after = full ? 1 : maxRow();
-    const r = await fetch(URL_+'?after='+after+'&c=1', {signal:ctl.signal}); const j = await r.json();
-    if (!j.ok) throw 0;
+    const j = await api({action:'list', after}, ctl.signal);
     const got = (j.rows||[]).map(expand);
     if (!full && j.last < after) { loading=false; return load(true); }
     if (full) { rows = got.concat(rows.filter(x => !x.row && (inflight.has(x._pid) || pending.some(p => !p.action && p._pid && p._pid===x._pid)))); }
@@ -391,10 +467,7 @@ async function load(full){
   } catch(e){ return false; }
   finally { clearTimeout(to); loading=false; $('btnRef').classList.remove('spin'); }
 }
-async function send(payload){
-  const r = await fetch(URL_, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) });
-  const j = await r.json(); if (!j.ok) throw new Error(j.error||'fail'); return j;
-}
+const send = payload => api(payload);
 const post = rec => send(rec).then(j => j.row);
 function savePending(){ LS.setItem('pending', JSON.stringify(pending)); const p=$('pend'); if(pending.length){p.style.display='block';p.textContent=pending.length+' change offline saved, internet aate hi sheet me jayenge.';} else p.style.display='none'; }
 async function syncPending(){
@@ -439,7 +512,7 @@ function attach(field){
 
 function fillFrom(s){
   $('ownerName').value=s.ownerName||''; $('ownerMob').value=s.ownerMob||''; $('address').value=s.address||'';
-  $('type').value=s.type||''; $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||'';
+  $('type').value=s.type||''; $('city').value=s.city||''; $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||'';
   const [sn,su]=parseSize(s.size); $('sizeNum').value=sn; chipSet('sizeUnit',su);
   const [cn,cu]=parseCond(s.condition); $('condNum').value=cn; chipSet('condUnit',cu);
   $('date').value=todayISO();
@@ -447,12 +520,13 @@ function fillFrom(s){
   b.innerHTML='<b>Revisit:</b> purana record load ho gaya (last visit '+esc(fmt(s.date))+'). Change karna ho to karein, phir Save. Naya record aaj ki date par banega.';
 }
 function clearForm(){
-  ['ownerName','ownerMob','address','sizeNum','type','meetName','meetMob','condNum','ticket'].forEach(i=>$(i).value='');
+  ['ownerName','ownerMob','address','city','sizeNum','type','meetName','meetMob','condNum','ticket'].forEach(i=>$(i).value='');
   chipSet('sizeUnit',''); chipSet('condUnit',''); $('date').value=todayISO(); $('banner').style.display='none';
 }
 function openForm(rec, mode){
   clearForm(); editing = null;
   if (rec) fillFrom(rec);
+  if (mode!=='edit') { const tc=getTodayCity(); if (tc) $('city').value=tc; }
   if (mode==='edit') { editing = rec; $('date').value = rec.date || todayISO(); const b=$('banner'); b.style.display='block'; b.innerHTML='<b>Edit:</b> is record me changes karein, phir Update dabayen. Sheet me bhi update ho jayega.'; }
   $('fTitle').textContent = mode==='edit' ? 'Edit Record' : rec ? 'Revisit' : 'New Visit';
   $('save').textContent = mode==='edit' ? 'Update Record' : 'Save Record';
@@ -469,7 +543,7 @@ function buildRec(){
   if (cn && isNum(cn) && !cu) { toast('Condition: Day/Week/Month/Year select karein','bad'); return null; }
   const rec = { date:$('date').value||todayISO(), ownerName:$('ownerName').value.trim(), ownerMob:$('ownerMob').value.trim(),
     size: su?(sn+' '+su):sn, type:$('type').value.trim(), meetName:$('meetName').value.trim(), meetMob:$('meetMob').value.trim(),
-    address:$('address').value.trim(), condition: cu?(cn+' '+cu+((+cn===1)?'':'s')):cn, ticket:$('ticket').value.trim() };
+    address:$('address').value.trim(), city:$('city').value.trim(), condition: cu?(cn+' '+cu+((+cn===1)?'':'s')):cn, ticket:$('ticket').value.trim() };
   if (!rec.address && !rec.ownerName) { toast('Site Address ya Owner Name likhein','bad'); return null; }
   return rec;
 }
@@ -489,8 +563,9 @@ function doEdit(old, rec){
 }
 $('save').onclick = () => {
   const rec = buildRec(); if (!rec) return;
-  if (!URL_) { toast('Pehle Settings me Web App URL daalein','bad'); return; }
+  if (!URL_ || !SESSION) { toast('Pehle login karein','bad'); return; }
   if (editing) return doEdit(editing, rec);
+  if (!rec.city && rec.date===todayISO()) rec.city = getTodayCity();
   rec._pid = uid(); inflight.add(rec._pid);
   rows.push(rec); cacheRows(); shown=50; render(); closeForm(); toast('Saved','ok');
   post(rec).then(row => { rec.row = row; inflight.delete(rec._pid); cacheRows(); })
@@ -499,7 +574,7 @@ $('save').onclick = () => {
 
 /* ================= DELETE ================= */
 let confFn = null;
-function askConfirm(t, m, yes, fn){ $('cT').textContent=t; $('cP').textContent=m; $('cY').textContent=yes; confFn=fn; $('conf').classList.add('on'); }
+function askConfirm(t, m, yes, fn, safe){ $('cT').textContent=t; $('cP').textContent=m; $('cY').textContent=yes; $('cY').classList.toggle('dng', !safe); confFn=fn; $('conf').classList.add('on'); }
 $('cN').onclick = () => { $('conf').classList.remove('on'); confFn=null; };
 $('conf').addEventListener('click', e => { if (e.target===$('conf')) $('cN').onclick(); });
 $('cY').onclick = () => { $('conf').classList.remove('on'); const f=confFn; confFn=null; if (f) f(); };
@@ -509,7 +584,7 @@ function askDelete(list){
     (one ? (list[0].address||list[0].ownerName||'Ye record') : 'Selected records')+' sheet se bhi hamesha ke liye delete ho jayega.', 'Yes, Delete', () => doDelete(list));
 }
 function doDelete(list){
-  if (!URL_) return toast('Pehle Settings me Web App URL daalein','bad');
+  if (!URL_ || !SESSION) return toast('Pehle login karein','bad');
   const synced = list.filter(r => r.row), local = list.filter(r => !r.row);
   const items = synced.map(r => ({ row:r.row, orig:vals(r) }));
   const del = synced.map(r => r.row).sort((a,b)=>a-b), gone = new Set(list);
@@ -524,9 +599,131 @@ function doDelete(list){
   }
 }
 
-/* ================= SETTINGS ================= */
-$('btnSet').onclick = () => { $('url').value=URL_; $('set').classList.add('on'); };
+/* ================= CITY ================= */
+let CITY_ALL = null;
+const nk = x => String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+function cityPool(){
+  if (CITY_ALL) return CITY_ALL;
+  const m = new Map(); (window.PK_CITIES||[]).forEach(c => m.set(nk(c), c));
+  rows.forEach(r => { const c=(r.city||'').trim(); if (c && !m.has(nk(c))) m.set(nk(c), c); });
+  return CITY_ALL = [...m.values()].sort((a,b)=>a.localeCompare(b));
+}
+function recentCities(){
+  const f={}; rows.forEach(r => { const c=(r.city||'').trim(); if(c) f[c]=(f[c]||0)+1; });
+  return Object.keys(f).sort((a,b)=>f[b]-f[a]);
+}
+function cityMatches(q, n){
+  const k = nk(q);
+  if (!k) { const rc=recentCities().slice(0,8); return rc.length ? rc : ['Lahore','Karachi','Islamabad','Rawalpindi','Faisalabad','Multan','Gujranwala','Peshawar'].slice(0,n); }
+  const pool = cityPool(), a=[], b=[];
+  pool.forEach(c => { const x=nk(c); if (x.startsWith(k)) a.push(c); else if (x.includes(k)) b.push(c); });
+  return a.concat(b).slice(0,n);
+}
+const getTodayCity = () => { const t=jget('todayCity',null); return t && t.date===todayISO() ? t.city : ''; };
+function renderTcity(){ const c=getTodayCity(); $('tcityTxt').textContent = c || 'Select karein'; $('tcity').classList.toggle('set', !!c); }
+function renderCityList(){
+  const q=$('cpQ').value.trim(), list=cityMatches(q,40);
+  let h=list.map(c => '<div class="cpi" data-c="'+esc(c)+'"><b>'+esc(c)+'</b></div>').join('');
+  if (q && !list.some(c => nk(c)===nk(q))) h+='<div class="cpi" data-c="'+esc(q)+'"><b>Use "'+esc(q)+'"</b><span>List me nahi, jaisa likha hai wesa add hoga</span></div>';
+  $('cpList').innerHTML = h || '<div class="empty">Koi city nahi mili</div>';
+}
+function openCityPicker(){ $('cpQ').value=''; renderCityList(); $('cityOv').classList.add('on'); setTimeout(()=>$('cpQ').focus(),250); }
+function closeCityPicker(){ $('cityOv').classList.remove('on'); }
+$('tcity').onclick = openCityPicker;
+$('cpClose').onclick = closeCityPicker;
+$('cityOv').addEventListener('click', e => { if (e.target===$('cityOv')) closeCityPicker(); });
+$('cpQ').addEventListener('input', renderCityList);
+$('cpClear').onclick = () => { LS.removeItem('todayCity'); renderTcity(); closeCityPicker(); toast('Today city hata di gayi'); };
+$('cpList').addEventListener('click', e => { const d=e.target.closest('.cpi'); if (d) setTodayCity(d.dataset.c); });
+function recOf(r){ return { date:r.date, ownerName:r.ownerName, ownerMob:r.ownerMob, size:r.size, type:r.type, meetName:r.meetName, meetMob:r.meetMob, address:r.address, condition:r.condition, ticket:r.ticket, city:r.city||'' }; }
+function setTodayCity(c){
+  c = String(c||'').trim(); if (!c) return;
+  LS.setItem('todayCity', JSON.stringify({city:c, date:todayISO()}));
+  closeCityPicker(); renderTcity(); toast('Today city: '+c,'ok');
+  const miss = rows.filter(r => r.date===todayISO() && !r.city);
+  if (miss.length) askConfirm('Aaj ki purani entries?', 'Aaj ki '+miss.length+' entries me city khali hai. In sab me "'+c+'" laga dein?', 'Haan, laga do', () => applyCity(miss, c), true);
+}
+async function applyCity(list, c){
+  for (const r of list) {
+    if (r.row) {
+      const orig = vals(r); r.city = c; delete r._h;
+      const op = { action:'edit', row:r.row, orig, rec:recOf(r) };
+      try { await send(op); } catch(e){ pending.push(op); savePending(); }
+    } else {
+      const p = pending.find(x => !x.action && x._pid && x._pid===r._pid);
+      if (p) { p.city = c; r.city = c; delete r._h; }
+    }
+  }
+  savePending(); cacheRows(); render(); toast('City laga di gayi','ok');
+}
+(function(){
+  const inp=$('city'), box=$('sug_city'), hide=()=>box.style.display='none';
+  const show=()=>{ const list=cityMatches(inp.value.trim(),8); if(!list.length) return hide();
+    box.innerHTML=list.map(c=>'<div data-c="'+esc(c)+'"><b>'+esc(c)+'</b></div>').join(''); box.style.display='block'; };
+  inp.addEventListener('input', show); inp.addEventListener('focus', show);
+  box.addEventListener('pointerdown', e => { const d=e.target.closest('div[data-c]'); if(!d) return; e.preventDefault(); inp.value=d.dataset.c; hide(); });
+  inp.addEventListener('blur', () => setTimeout(hide,200));
+})();
+
+/* ================= LOGIN / SETTINGS ================= */
+const NATIVE = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
+const GA = () => window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.GoogleAuth;
+function showLogin(msg){
+  $('loginErr').textContent = msg || '';
+  $('loginUrl').style.display = URL_ ? 'none' : 'block';
+  $('gNative').style.display = NATIVE ? 'flex' : 'none';
+  $('gweb').style.display = NATIVE ? 'none' : 'flex';
+  $('login').classList.add('on');
+  if (!NATIVE) initWebLogin();
+}
+function loginBusy(b){ $('gNative').disabled=b; if (b) $('loginErr').textContent='Login ho raha hai...'; }
+async function finishLogin(idToken){
+  if (!URL_) { const u=$('loginUrl').value.trim(); if (!/^https:\/\/script\.google\.com\//.test(u)) throw new Error('Pehle sahi Web App URL daalein'); URL_=u; LS.setItem('url',u); }
+  const j = await rawPost({ action:'login', idToken });
+  if (!j.ok) throw new Error(j.error||'Login fail');
+  if (LS.getItem('owner') !== j.user.email) { rows=[]; pending=[]; LS.removeItem('todayCity'); LS.setItem('rows','[]'); savePending(); LS.setItem('owner', j.user.email); }
+  SESSION = { token:j.token, exp:j.exp, email:j.user.email, name:j.user.name, picture:j.user.picture };
+  LS.setItem('session', JSON.stringify(SESSION));
+  $('login').classList.remove('on'); $('loginErr').textContent='';
+  cacheRows(); render(); renderTcity();
+  await load(true); syncPending();
+}
+$('gNative').onclick = async () => {
+  loginBusy(true);
+  try {
+    const G = GA(); if (!G) throw new Error('Google login plugin nahi mila');
+    const u = await G.signIn();
+    const t = u && u.authentication && u.authentication.idToken;
+    if (!t) throw new Error('Google token nahi mila');
+    await finishLogin(t);
+  } catch(e){ $('loginErr').textContent = 'Login nahi hua: '+(e && e.message || e && e.error || e); }
+  loginBusy(false);
+};
+let gisReady=false;
+function initWebLogin(){
+  if (gisReady || !CLIENT_ID) { if (!CLIENT_ID) $('loginErr').textContent='config.js me clientId daalein'; return; }
+  const sc=document.createElement('script'); sc.src='https://accounts.google.com/gsi/client'; sc.async=true;
+  sc.onload=()=>{ gisReady=true; google.accounts.id.initialize({ client_id:CLIENT_ID, callback: r => { loginBusy(true); finishLogin(r.credential).catch(e => { $('loginErr').textContent='Login nahi hua: '+(e && e.message||e); }).finally(()=>loginBusy(false)); } }); google.accounts.id.renderButton($('gweb'),{theme:'outline',size:'large',text:'signin_with',width:300}); };
+  document.head.appendChild(sc);
+}
+function openSettings(){
+  const n=(SESSION&&SESSION.name)||'-';
+  $('meName').textContent=n; $('meMail').textContent=(SESSION&&SESSION.email)||''; $('meAv').textContent=n.trim().charAt(0).toUpperCase()||'?';
+  $('urlBox').style.display = cfgUrl ? 'none' : 'block'; $('url').value=URL_;
+  $('set').classList.add('on');
+}
+$('btnSet').onclick = openSettings;
 $('setClose').onclick = () => $('set').classList.remove('on');
+$('logout').onclick = () => {
+  const go = async () => {
+    try { const G=GA(); if (G && G.signOut) await G.signOut(); } catch(e){}
+    SESSION=null; LS.removeItem('session'); LS.removeItem('owner'); LS.removeItem('todayCity');
+    rows=[]; pending=[]; LS.setItem('rows','[]'); savePending(); selMode=false; document.body.classList.remove('sm');
+    $('set').classList.remove('on'); cacheRows(); render(); renderTcity(); showLogin('');
+  };
+  if (pending.length) askConfirm('Logout?', pending.length+' offline changes abhi sync nahi hue, logout par ye zaya ho jayenge.', 'Phir bhi logout', go);
+  else go();
+};
 $('saveUrl').onclick = async () => {
   const u=$('url').value.trim();
   if (!/^https:\/\/script\.google\.com\//.test(u)) return toast('URL galat lag raha hai','bad');
@@ -537,8 +734,9 @@ $('saveUrl').onclick = async () => {
 };
 
 /* ================= EXPORT (Excel + PDF) ================= */
-const HEADS = ['Date','Owner Name','Owner Mob','Site Size','Site Type','Meet with / Name','Mobile','Site Address','Site condition for estimated time for paint','Ticket No'];
+const HEADS = ['Date','Owner Name','Owner Mob','Site Size','Site Type','Meet with / Name','Mobile','Site Address','City','Site condition for estimated time for paint','Ticket No'];
 const vals = r => [r.date, r.ownerName, r.ownerMob, r.size, r.type, r.meetName, r.meetMob, r.address, r.condition, r.ticket];
+const xvals = r => [r.date, r.ownerName, r.ownerMob, r.size, r.type, r.meetName, r.meetMob, r.address, r.city||'', r.condition, r.ticket];
 let expItems = [], expTag = '';
 function rangeText(){
   const f=$('from').value, t=$('to').value;
@@ -550,7 +748,8 @@ function fileBase(){
   const dmy = iso => iso.slice(8,10)+'_'+iso.slice(5,7)+'_'+iso.slice(0,4);
   let rng = '';
   if (ds.length) rng = ds[0]===ds[ds.length-1] ? dmy(ds[0]) : dmy(ds[0])+' to '+dmy(ds[ds.length-1]);
-  return 'Kashif Zaheer Kaizen Report'+(rng?' ('+rng+')':'');
+  const who = String((SESSION && SESSION.name) || 'Kaizen').replace(/[\\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim() || 'Kaizen';
+  return who+' Kaizen Report'+(rng?' ('+rng+')':'');
 }
 function openExport(list, tag){
   if (!list.length) return toast('Export ke liye koi record nahi','bad');
@@ -594,18 +793,18 @@ const b64 = u8 => { let s=''; for(let i=0;i<u8.length;i+=0x8000) s+=String.fromC
 const xe = s => String(s==null?'':s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function buildXLSX(list){
-  const L='ABCDEFGHIJ', widths=[13,20,16,12,20,20,16,36,24,12];
+  const L='ABCDEFGHIJK', widths=[13,20,16,12,20,20,16,36,16,24,12];
   const str=(ref,v,s)=>'<c r="'+ref+'"'+(s?' s="'+s+'"':'')+' t="inlineStr"><is><t xml:space="preserve">'+xe(v)+'</t></is></c>';
   let sd='<row r="1" ht="32" customHeight="1">'+HEADS.map((h,i)=>str(L[i]+'1',h,1)).join('')+'</row>';
   list.forEach((r,ri) => {
-    const n=ri+2; const v=vals(r);
+    const n=ri+2; const v=xvals(r);
     sd+='<row r="'+n+'">'+v.map((x,i) => {
       const ref=L[i]+n;
       if (i===0) { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(x||''); if (m) return '<c r="'+ref+'" s="2"><v>'+(Date.UTC(+m[1],+m[2]-1,+m[3])/86400000+25569)+'</v></c>'; }
       return str(ref,x,0);
     }).join('')+'</row>';
   });
-  const sheet='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>'+widths.map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join('')+'</cols><sheetData>'+sd+'</sheetData><autoFilter ref="A1:J'+(list.length+1)+'"/></worksheet>';
+  const sheet='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>'+widths.map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join('')+'</cols><sheetData>'+sd+'</sheetData><autoFilter ref="A1:K'+(list.length+1)+'"/></worksheet>';
   const NS='http://schemas.openxmlformats.org/spreadsheetml/2006/main', RN='http://schemas.openxmlformats.org/officeDocument/2006/relationships', PK='http://schemas.openxmlformats.org/package/2006/relationships';
   const H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
   return zipStore([
@@ -654,11 +853,11 @@ const p2h = n => (n<16?'0':'')+n.toString(16);
 
 function buildPDF(list, hex){
   const W=842,H=595,M=28,fs=7.5,lh=9.5,pad=3.5;
-  const cols=[['Date',50],['Owner Name',78],['Owner Mob',66],['Site Size',46],['Site Type',74],['Meet with / Name',74],['Mobile',64],['Site Address',140],['Paint Time',56],['Ticket',40]];
+  const cols=[['Date',50],['Owner Name',78],['Owner Mob',66],['Site Size',46],['Site Type',74],['Meet with / Name',74],['Mobile',64],['Site Address',130],['City',52],['Paint Time',52],['Ticket',40]];
   const tot=cols.reduce((a,c)=>a+c[1],0), k=(W-2*M)/tot; cols.forEach(c=>c[1]*=k);
   const pages=[]; let ops, y;
   const T=(x,yy,s,size,bold,col)=>ops.push('BT /'+(bold?'F2':'F1')+' '+size+' Tf '+(col||'0.06 0.09 0.16')+' rg '+x.toFixed(2)+' '+yy.toFixed(2)+' Td ('+pe(s)+') Tj ET');
-  const title='Kaizen Site Visits', sub=expRange()+'   |   '+list.length+' records';
+  const title='Kaizen Site Visits', sub=((SESSION&&SESSION.name)?clean(SESSION.name)+'   |   ':'')+expRange()+'   |   '+list.length+' records';
   function newPage(){
     ops=[]; pages.push(ops);
     ops.push('0.06 0.09 0.16 rg 0 '+(H-54)+' '+W+' 54 re f');
@@ -673,7 +872,7 @@ function buildPDF(list, hex){
   }
   newPage();
   list.forEach((r,idx) => {
-    const v=vals(r); v[0]=fmt(r.date);
+    const v=xvals(r); v[0]=fmt(r.date);
     const cells=cols.map((c,i)=>wrapText(v[i],c[1]-2*pad,fs));
     const n=Math.max(...cells.map(c=>c.length)), h=n*lh+2*pad;
     if (y-h < M+14) newPage();
@@ -734,7 +933,9 @@ $('xP').onclick = async () => {
 // Order: popup -> form -> selection -> filters -> (only then) exit app
 function goBack(){
   const open = id => $(id).classList.contains('on');
+  if (open('login')) return;
   if (open('conf')) { $('cN').onclick(); return; }
+  if (open('cityOv')) { closeCityPicker(); return; }
   if (open('expOv')) { $('expOv').classList.remove('on'); return; }
   if (open('set')) { $('set').classList.remove('on'); return; }
   if (open('form')) { closeForm(); return; }
@@ -758,10 +959,11 @@ function goBack(){
   pending.forEach(p => { if (!p.action && !p._pid) p._pid = uid(); });
   rows.forEach(r => { if (!r.row && !r._pid) { const m=pending.find(p=>!p.action && JSON.stringify(vals(p))===JSON.stringify(vals(r))); if (m) r._pid=m._pid; } });
   fixDates(rows); cacheRows(); savePending(); render();
-  if (!URL_) { $('set').classList.add('on'); }
+  renderTcity();
+  if (!URL_ || !SESSION) showLogin('');
   else load(true).then(()=>syncPending());
   let lastVis=Date.now();
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && Date.now()-lastVis>15000 && !pending.length) { lastVis=Date.now(); load(false); } });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) renderTcity(); if (!document.hidden && Date.now()-lastVis>15000 && !pending.length) { lastVis=Date.now(); load(false); } });
   window.addEventListener('online', () => syncPending().then(()=>load(false)));
 })();
 </script>
