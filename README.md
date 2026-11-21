@@ -26,3 +26,14 @@ Phir GitHub par push karein (main branch), Actions APK bana deta hai. Releases s
 
 ## Features
 Add / edit / delete, City field (Pakistan ke cities/towns search), Today city button, multi-select (long press), filters (date, size, type, city), Excel & PDF export, offline sync, smart back button.
+
+## Web app (APK ke bajaye, Play Protect ka masla nahi)
+1. GitHub repo > Settings > Pages > Source: **GitHub Actions**. Push par app khud deploy hoti hai.
+2. Link: `https://<github-username>.github.io/<repo-name>/`
+3. Google Cloud > Credentials > Kaizen Web > **Authorized JavaScript origins** > Add URI: `https://<github-username>.github.io` (sirf itna, aage path nahi).
+4. Phone ke Chrome me link kholen > menu (3 dots) > **Install app** / **Add to Home screen**. Icon se normal app ki tarah khulti hai, updates khud aate hain.
+
+## Play Store (Play Protect warning ke baghair install)
+1. GitHub > Settings > Secrets and variables > Actions me 4 secrets daalein (KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_PASSWORD, KEY_ALIAS). Push ke baad Actions se `Kaizen-Play-Store-AAB` artifact download karein.
+2. play.google.com/console (ek dafa $25) > Create app > Testing > **Internal testing** > Create release > App signing: Play App Signing on > AAB upload > testers ki Gmail IDs add > opt-in link sab ko bhejein.
+3. Play Console > Setup > **App signing** me "App signing key certificate" ka SHA-1 copy karein. Google Cloud > Create OAuth client > Android, package `com.kaizen.sitevisit`, wo SHA-1 paste karein (aur upload key wala SHA-1 bhi ek alag client me). Warna Play wali app me Google login "Developer error" dega.

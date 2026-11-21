@@ -71,3 +71,22 @@ try:
     print('version set', code, name, n1, n2)
 except Exception as e:
     print('version step skipped:', e)
+
+# 7) Release signing (GitHub secrets). Secrets na hon to ye step skip ho jata hai.
+try:
+    if os.environ.get('KEYSTORE_BASE64'):
+        import base64
+        open('android/app/kaizen-release.jks', 'wb').write(base64.b64decode(os.environ['KEYSTORE_BASE64']))
+        g = open('android/app/build.gradle', encoding='utf8').read()
+        if 'signingConfigs' not in g:
+            sc = ("    signingConfigs {\n        release {\n"
+                  "            storeFile file('kaizen-release.jks')\n"
+                  "            storePassword System.getenv('KEYSTORE_PASSWORD')\n"
+                  "            keyAlias System.getenv('KEY_ALIAS')\n"
+                  "            keyPassword System.getenv('KEY_PASSWORD')\n        }\n    }\n")
+            g, n = re.subn(r'(\n\s*buildTypes\s*\{)', '\n' + sc.rstrip('\n') + r'\1', g, count=1)
+            g, m = re.subn(r'(buildTypes\s*\{\s*release\s*\{)', r'\1\n            signingConfig signingConfigs.release', g, count=1)
+            open('android/app/build.gradle', 'w', encoding='utf8').write(g)
+            print('release signing set', n, m)
+except Exception as e:
+    print('release signing step skipped:', e)
