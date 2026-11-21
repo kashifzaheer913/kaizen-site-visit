@@ -30,6 +30,8 @@ jobs:
         run: npx cap add android
 
       - name: Icon, splash and signing key
+        env:
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: |
           pip install pillow
           python3 resources/prepare_android.py
