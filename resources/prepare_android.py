@@ -56,3 +56,18 @@ try:
     print('google client id set')
 except Exception as e:
     print('google client id step skipped:', e)
+
+# 6) Har build ka versionCode badhta rahe taake naya APK purani app ke upar update ho jaye
+# (appId aur signing key pehle se fixed hain, sirf versionCode upar jana chahiye)
+try:
+    run = int(os.environ.get('GITHUB_RUN_NUMBER', '1'))
+    code = 10 + run
+    name = json.load(open('package.json')).get('version', '1.0.0') + '.' + str(run)
+    gp = 'android/app/build.gradle'
+    g = open(gp, encoding='utf8').read()
+    g, n1 = re.subn(r'versionCode\s+\d+', f'versionCode {code}', g, count=1)
+    g, n2 = re.subn(r'versionName\s+"[^"]*"', f'versionName "{name}"', g, count=1)
+    open(gp, 'w', encoding='utf8').write(g)
+    print('version set', code, name, n1, n2)
+except Exception as e:
+    print('version step skipped:', e)
