@@ -3,16 +3,6 @@
   "appName": "Kaizen",
   "webDir": "www",
   "plugins": {
-    "CapacitorHttp": {
-      "enabled": true
-    },
-    "GoogleAuth": {
-      "scopes": [
-        "profile",
-        "email"
-      ],
-      "serverClientId": "961804819522-2mlopq4vunu6b84pd2nfv1uedhkb3dil.apps.googleusercontent.com",
-      "forceCodeForRefreshToken": false
-    }
+    "CapacitorHttp": { "enabled": true }
   }
 }

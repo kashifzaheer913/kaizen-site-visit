@@ -4,10 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Kaizen</title>
 <style>
 :root{--bg:#f1f3f7;--card:#fff;--ink:#0f172a;--mute:#64748b;--line:#e2e8f0;--navy:#0f172a;--navy2:#1e293b;--acc:#f59e0b;--ok:#16a34a;--bad:#dc2626;--r:16px}
@@ -122,33 +118,25 @@ body.sm .selbar{display:flex}
 .sheet{animation:su .22s ease}@keyframes su{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 .fab{display:flex;align-items:center;gap:8px}.fab svg{width:18px;height:18px;stroke:#1c1204;fill:none;stroke-width:3;stroke-linecap:round}
 
-/* login */
-#login{display:none;position:fixed;inset:0;z-index:60;background:linear-gradient(160deg,#0f172a,#1e293b 65%,#334155);color:#fff;align-items:center;justify-content:center;padding:24px;text-align:center;overflow:auto}
-#login.on{display:flex}
-#login .box{width:100%;max-width:360px}
-#login img{width:86px;height:86px;background:#fff;border-radius:24px;padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
-#login h1{margin:18px 0 4px;font-size:26px}
-#login p{margin:0 0 26px;color:#cbd5e1;font-size:14px}
-.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#0f172a;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.3)}
-.gbtn svg{width:22px;height:22px}
-.gbtn:disabled{opacity:.6}
-#gweb{display:flex;justify-content:center;min-height:44px}
-#loginErr{margin-top:14px;color:#fecaca;font-size:13.5px;min-height:18px}
-#login input{margin-top:14px;text-align:center}
-/* user box in settings */
-.me{display:flex;align-items:center;gap:12px;background:#f8fafc;border-radius:14px;padding:12px;margin-bottom:14px}
-.me .av{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;flex:none}
-.me b{display:block;font-size:15px;word-break:break-word}.me span{font-size:12.5px;color:var(--mute);word-break:break-all}
-/* today city */
-.tcity{width:100%;display:flex;align-items:center;gap:12px;border:0;background:#fff;border-radius:14px;padding:11px 14px;margin:0 0 12px;text-align:left;box-shadow:0 2px 10px rgba(15,23,42,.06);border-left:4px solid #cbd5e1}
-.tcity.set{border-left-color:var(--ok);background:#f0fdf4}
-.tcity svg{width:22px;height:22px;stroke:var(--navy);fill:none;stroke-width:2;flex:none}
-.tcity div{flex:1;min-width:0}.tcity small{display:block;font-size:11.5px;color:var(--mute);font-weight:600}
-.tcity b{display:block;font-size:16px}.tcity i{font-style:normal;color:var(--mute);font-size:13px;font-weight:700}
-.tag.loc{background:#ccfbf1;color:#0f766e}
-.cpl{max-height:46vh;overflow:auto;margin:10px 0 12px;border:1.5px solid var(--line);border-radius:12px}
-.cpi{padding:11px 13px;border-bottom:1px solid var(--line)}.cpi:last-child{border:0}
-.cpi:active{background:#f1f5f9}.cpi b{display:block;font-size:15px}.cpi span{font-size:12px;color:var(--mute)}
+.citybar{display:flex;align-items:center;gap:12px;width:100%;border:0;background:#fff;border-radius:16px;padding:12px 14px;margin:0 0 12px;box-shadow:0 2px 10px rgba(15,23,42,.06);text-align:left;border-left:4px solid var(--acc);color:var(--ink)}
+.citybar svg{width:26px;height:26px;stroke:var(--acc);fill:none;stroke-width:2;flex:none}
+.citybar div{flex:1;min-width:0}.citybar small{display:block;font-size:11.5px;color:var(--mute);font-weight:600}
+.citybar b{font-size:17px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.citybar:not(.set) b{color:#b45309}
+.citybar span{background:var(--navy);color:#fff;border-radius:10px;padding:8px 13px;font-size:13px;font-weight:700}
+.tag.k{background:#cffafe;color:#155e75}
+.clist{max-height:42vh;overflow:auto;margin:10px 0}
+.clist button{display:flex;align-items:baseline;gap:8px;width:100%;text-align:left;border:0;background:#f8fafc;border-radius:12px;padding:12px 14px;margin-bottom:8px;font-size:15px;color:var(--ink)}
+.clist button:active{background:#e2e8f0}
+.clist span{font-size:12px;color:var(--mute)}
+#login{display:none;position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto}
+#login.on{display:block}
+.lg{max-width:420px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 44px) 20px 30px;text-align:center}
+.lg img{width:78px;height:78px;background:#fff;border-radius:22px;padding:12px;box-shadow:0 6px 18px rgba(15,23,42,.15)}
+.lg h1{margin:14px 0 6px;font-size:26px}
+.lg p{color:var(--mute);margin:0 0 18px;font-size:14px;line-height:1.5}
+.lg .f{text-align:left}
+.btn:disabled{opacity:.6}
 </style>
 </head>
 <body>
@@ -175,15 +163,14 @@ body.sm .selbar{display:flex}
     <div><span class="lbl">Site Size</span><select id="fSize"><option value="">All</option><option value="Marla">Marla</option><option value="Canal">Kanal</option></select></div>
     <div><span class="lbl">Paint time</span><select id="fCond"><option value="">All</option><option>Day</option><option>Week</option><option>Month</option><option>Year</option></select></div>
   </div>
-  <div style="margin-top:10px"><span class="lbl">Site Type</span><select id="fType"><option value="">All</option></select></div>
-  <div style="margin-top:10px"><span class="lbl">City</span><select id="fCity"><option value="">All</option></select></div>
+  <div class="g2" style="margin-top:10px"><div><span class="lbl">Site Type</span><select id="fType"><option value="">All</option></select></div><div><span class="lbl">City</span><select id="fCity"><option value="">All</option></select></div></div>
   <label class="chk"><input type="checkbox" id="fUniq"> Har site ka sirf latest record</label>
   <button class="btn sc" id="fReset" style="margin-top:4px">Reset filters</button>
 </div>
 
 <main>
-  <button class="tcity" id="tcity"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><div><small>Today city (aaj ki sari entries isi city ki)</small><b id="tcityTxt">Select karein</b></div><i>Change</i></button>
   <div class="pend" id="pend"></div>
+  <button class="citybar" id="btnCity"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg><div><small>Today city</small><b id="cityNow">Select karein</b></div><span>Change</span></button>
   <div class="stats" id="stats"></div>
   <div class="bar">
     <div class="count" id="count"></div>
@@ -213,10 +200,10 @@ body.sm .selbar{display:flex}
     <div class="banner" id="banner"></div>
     <div class="sec">
       <div class="f"><label>Date</label><input type="date" id="date"></div>
+      <div class="f"><label>City</label><input id="city" autocomplete="off" placeholder="City / town likhein, list se chunein"><div class="sug" id="sug_city"></div></div>
       <div class="f"><label>Owner Name</label><input id="ownerName" autocomplete="off" placeholder="Type karein, purana record aa jayega"><div class="sug" id="sug_ownerName"></div></div>
       <div class="f"><label>Owner Mob</label><input id="ownerMob" autocomplete="off" inputmode="tel" placeholder="03xx-xxxxxxx"><div class="sug" id="sug_ownerMob"></div></div>
       <div class="f"><label>Site Address</label><input id="address" autocomplete="off" placeholder="e.g. H#6,7 Eden Orchard"><div class="sug" id="sug_address"></div></div>
-      <div class="f"><label>City</label><input id="city" autocomplete="off" placeholder="City / town likhein aur list se chunein"><div class="sug" id="sug_city"></div></div>
     </div>
     <div class="sec">
       <div class="f"><label>Site Size</label><input id="sizeNum" inputmode="decimal" autocomplete="off" placeholder="2, 4, 5 ...">
@@ -250,34 +237,45 @@ body.sm .selbar{display:flex}
   <button class="btn sc" id="cN">Cancel</button>
 </div></div>
 
-<!-- SETTINGS SHEET -->
+<!-- ACCOUNT SHEET -->
 <div class="ov" id="set"><div class="sheet">
-  <h2>Settings</h2><p>Aap ka account</p>
-  <div class="me"><div class="av" id="meAv">?</div><div><b id="meName"></b><span id="meMail"></span></div></div>
-  <div id="urlBox" style="display:none"><p style="margin-bottom:8px">Google Script Web App URL</p>
-  <div class="f"><input id="url" placeholder="https://script.google.com/macros/s/.../exec"></div>
-  <button class="btn" id="saveUrl">Save &amp; Test</button></div>
-  <button class="btn dng" id="logout" style="margin-top:10px">Logout</button>
+  <h2>Account</h2><p id="accMail"></p>
+  <div class="f"><label>Aap ka naam (download files me yehi naam aayega)</label><input id="accName" autocomplete="off"></div>
+  <button class="btn" id="accSave">Save name</button>
+  <button class="btn dng" id="accOut" style="margin-top:10px">Logout</button>
   <button class="btn sc" id="setClose">Close</button>
 </div></div>
 
-<!-- CITY PICKER -->
+<!-- TODAY CITY SHEET -->
 <div class="ov" id="cityOv"><div class="sheet">
-  <h2>Today city</h2><p>City ya town likhein, list se chunein. Aaj ki nayi entries isi city me jayengi.</p>
-  <input id="cpQ" autocomplete="off" placeholder="Search city / town...">
-  <div class="cpl" id="cpList"></div>
-  <button class="btn sc" id="cpClear" style="margin-top:0">Today city hata dein</button>
-  <button class="btn sc" id="cpClose">Cancel</button>
+  <h2>Today City</h2><p>Aaj ki nayi entries is city me add hongi.</p>
+  <input id="cityQ" placeholder="City ya town search karein" autocomplete="off">
+  <div class="clist" id="cityList"></div>
+  <button class="btn sc" id="cityClear">Today city hata dein</button>
+  <button class="btn sc" id="cityX" style="margin-top:8px">Cancel</button>
 </div></div>
 
 <!-- LOGIN -->
-<div id="login"><div class="box">
+<div id="login"><div class="lg">
   <img src="logo.png" alt="">
-  <h1>Kaizen</h1><p>Apni Google ID se login karein. Aap ka data sirf aap ko nazar aaye ga.</p>
-  <input id="loginUrl" placeholder="Google Script Web App URL" style="display:none">
-  <button class="gbtn" id="gNative"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>Google se login</button>
-  <div id="gweb" style="display:none"></div>
-  <div id="loginErr"></div>
+  <h1>Kaizen</h1>
+  <div class="f" id="lgUrlBox" style="display:none"><label>Web App URL</label><input id="lgUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <div id="lg1">
+    <p>Apni Gmail / Google email se login karein. Aap ko code email par aaye ga.</p>
+    <div class="f"><label>Email</label><input id="lgEmail" type="email" inputmode="email" autocomplete="email" placeholder="name@gmail.com"></div>
+    <button class="btn" id="lgSend">Code bhejein</button>
+  </div>
+  <div id="lg2" style="display:none">
+    <p id="lgInfo"></p>
+    <div class="f"><label>6-digit code</label><input id="lgCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"></div>
+    <button class="btn" id="lgVerify">Login</button>
+    <button class="btn sc" id="lgBack">Email badlein</button>
+  </div>
+  <div id="lg3" style="display:none">
+    <p>Apna naam likhein. Aap ki Excel / PDF files isi naam se banengi.</p>
+    <div class="f"><label>Aap ka naam</label><input id="lgName" autocomplete="name" placeholder="e.g. Kashif Zaheer"></div>
+    <button class="btn" id="lgSaveName">Continue</button>
+  </div>
 </div></div>
 
 <div class="toast" id="toast"></div>
@@ -295,62 +293,44 @@ const fmt = iso => { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||''); return m
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const jget = (k,d) => { try { return JSON.parse(LS.getItem(k)) ?? d; } catch(e){ return d; } };
 const digits = s => String(s||'').replace(/\D/g,'');
-const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 
 const IC_REV='<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>';
 const IC_ED='<svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 const IC_DEL='<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>';
 const IC_CK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
-const cfgUrl = (window.APP_CONFIG && APP_CONFIG.url) || '';
-const CLIENT_ID = (window.APP_CONFIG && APP_CONFIG.clientId) || '';
-let URL_ = cfgUrl || LS.getItem('url') || '';
-let SESSION = jget('session', null);
-if (SESSION && !(SESSION.token && SESSION.exp > Date.now())) SESSION = null;
-let rows = jget('rows', []);
-let pending = jget('pending', []);
+const CFG_URL = (window.APP_CONFIG && APP_CONFIG.url) || '';
+let URL_ = CFG_URL || LS.getItem('url') || '';
+let USER = jget('user', null);               // {email, name, token}
+let rows = [], pending = [], TC = null;      // TC = {date, city}  (today city)
 let siteIdx = null, shown = 50, view = [], keyMap = {};
 let selMode = false, sel = new Set(), editing = null;
-const inflight = new Set();
+let mut = 0, loading = false, flushing = false, pendingEmail = '';
 
-function toast(msg, cls){ const t=$('toast'); t.textContent=msg; t.className='toast '+(cls||''); t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2600); }
-const key = r => r.row ? 'r'+r.row : 'p'+(r._pid || (r._pid = uid()));
-
-
-/* ---- date normalizer: 9/9/2026, 09-Sep-2026, 2026-09-09 sab ISO ban jayen ---- */
-let DMY = true;
-const MI = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-function detectOrder(list){
-  let a=0,b=0;
-  list.forEach(r => { const m=/^\s*(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/.exec(r.date||''); if(!m) return; if(+m[1]>12) a++; if(+m[2]>12) b++; });
-  if (a>b) DMY=true; else if (b>a) DMY=false; else DMY=true;
-}
-function normDate(v){
-  v = String(v==null?'':v).trim(); if(!v) return '';
-  let m=/^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(v); if(m) return m[1]+'-'+p2(+m[2])+'-'+p2(+m[3]);
-  m=/^(\d{1,2})[\/\-.\s]([A-Za-z]{3})[a-z]*[\/\-.\s,]*(\d{2,4})/.exec(v);
-  if(m && MI[m[2].toLowerCase()]){ let y=+m[3]; if(y<100) y+=2000; return y+'-'+p2(MI[m[2].toLowerCase()])+'-'+p2(+m[1]); }
-  m=/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/.exec(v);
-  if(m){ let a=+m[1], b=+m[2], y=+m[3]; if(y<100) y+=2000; let d=DMY?a:b, mo=DMY?b:a; if(mo>12){ const t=d; d=mo; mo=t; } return y+'-'+p2(mo)+'-'+p2(d); }
-  return v;
-}
-function fixDates(list){ detectOrder(list); list.forEach(r => { r.date = normDate(r.date); delete r._h; }); }
-function expand(x){ return Array.isArray(x) ? {row:x[0],date:x[1],ownerName:x[2],ownerMob:x[3],size:x[4],type:x[5],meetName:x[6],meetMob:x[7],address:x[8],condition:x[9],ticket:x[10],city:x[11]||''} : x; }
+// Har user ka local cache alag key me (shared phone par data mix na ho)
+const K = n => n+'_'+(USER ? USER.email : '');
+const FIELDS = ['id','date','city','ownerName','ownerMob','size','type','meetName','meetMob','address','condition','ticket'];
+const wire = r => { const o={}; FIELDS.forEach(f => o[f] = r[f]==null ? '' : String(r[f])); return o; };
+function loadLocal(){ rows = jget(K('rows'), []); pending = jget(K('pending'), []); TC = jget(K('tc'), null); }
+function toast(msg, cls){ const t=$('toast'); t.textContent=msg; t.className='toast '+(cls||''); t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2800); }
+const key = r => r.id;
+const sortKey = r => r._o || 0;
+const nextO = () => rows.reduce((m,r)=>Math.max(m,r._o||0),0)+1;
+const expand = (a,i) => ({id:a[0],date:a[1],city:a[2],ownerName:a[3],ownerMob:a[4],size:a[5],type:a[6],meetName:a[7],meetMob:a[8],address:a[9],condition:a[10],ticket:a[11],_o:i+1});
 
 /* ================= DATA LIST ================= */
-function hay(r){ return (r._h ||= (r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+(r.city||'')+' '+r.date).toLowerCase()); }
-const sortKey = r => r.row || 1e9;
+function hay(r){ return (r._h ||= (r.city+' '+r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+r.date).toLowerCase()); }
 const szRe = v => v==='canal'||v==='kanal' ? /[ck]anal/i : v==='marla' ? /marl/i : new RegExp(v,'i');
 const cdRe = v => ({day:/day|din/i, week:/week|hafta|haft/i, month:/month|mah|maah/i, year:/year|saal|sal/i}[v] || new RegExp(v,'i'));
 function compute(){
   const toks = $('q').value.toLowerCase().split(/\s+/).filter(Boolean);
-  const f=$('from').value, t=$('to').value, sz=$('fSize').value.toLowerCase(), cd=$('fCond').value.toLowerCase(), ty=$('fType').value, ct=$('fCity').value;
+  const f=$('from').value, t=$('to').value, sz=$('fSize').value.toLowerCase(), cd=$('fCond').value.toLowerCase(), ty=$('fType').value, ci=$('fCity').value;
   let l = rows.filter(r =>
     (!f || r.date>=f) && (!t || r.date<=t) &&
     (!sz || szRe(sz).test(r.size||'')) &&
     (!cd || cdRe(cd).test(r.condition||'')) &&
-    (!ty || r.type===ty) &&
-    (!ct || (r.city||'')===ct) &&
+    (!ty || r.type===ty) && (!ci || (r.city||'')===ci) &&
     toks.every(k => hay(r).includes(k)));
   l.sort((a,b) => a.date<b.date?1:a.date>b.date?-1:sortKey(b)-sortKey(a));
   if ($('fUniq').checked) {
@@ -367,6 +347,8 @@ function renderStats(){
   const td=rows.filter(r=>r.date===t).length, mo=rows.filter(r=>(r.date||'').slice(0,7)===ym).length;
   $('stats').innerHTML='<div class="st"><b>'+rows.length+'</b><span>Total visits</span></div><div class="st"><b>'+td+'</b><span>Today</span></div><div class="st"><b>'+mo+'</b><span>This month</span></div>';
 }
+const todayCity = () => (TC && TC.date===todayISO() && TC.city) ? TC.city : '';
+function renderCityBar(){ const c=todayCity(); $('cityNow').textContent = c || 'Select karein'; $('btnCity').classList.toggle('set', !!c); }
 function render(){
   view = compute(); keyMap = {};
   const nf = ['from','to','fSize','fCond','fType','fCity'].filter(i=>$(i).value).length + ($('fUniq').checked?1:0);
@@ -376,16 +358,16 @@ function render(){
   $('list').innerHTML = part.length ? part.map(r => {
     const k=key(r); keyMap[k]=r;
     const sl=(r.size||'').toLowerCase();
-    return '<div class="card'+(sel.has(k)?' sel':'')+'" data-k="'+k+'"><div class="ck">'+IC_CK+'</div><div class="dt">'+dateTile(r.date)+'</div><div class="bd">'+
+    return '<div class="card'+(sel.has(k)?' sel':'')+'" data-k="'+esc(k)+'"><div class="ck">'+IC_CK+'</div><div class="dt">'+dateTile(r.date)+'</div><div class="bd">'+
     '<h3>'+esc(r.address||'-')+'</h3>'+
     '<p>'+esc(r.ownerName)+(r.ownerMob?' &middot; <a href="tel:'+esc(digits(r.ownerMob))+'">'+esc(r.ownerMob)+'</a>':'')+'</p>'+
-    '<div class="tags">'+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.city?'<span class="tag loc">'+esc(r.city)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">#'+esc(r.ticket)+'</span>':'')+'</div>'+
+    '<div class="tags">'+(r.city?'<span class="tag k">'+esc(r.city)+'</span>':'')+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">#'+esc(r.ticket)+'</span>':'')+'</div>'+
     (r.meetName?'<p style="margin-top:6px">Met: '+esc(r.meetName)+(r.meetMob?' ('+esc(r.meetMob)+')':'')+'</p>':'')+
     '<div class="acts"><button class="ab" data-a="rv">'+IC_REV+'Revisit</button><button class="ab ed" data-a="ed">'+IC_ED+'Edit</button><button class="ab dl" data-a="dl">'+IC_DEL+'Delete</button></div></div></div>'; }).join('')
     : '<div class="empty">Koi record nahi mila</div>';
   $('more').style.display = view.length>shown ? 'block' : 'none';
-  $('sub').textContent = (SESSION ? SESSION.name+' \u00b7 ' : '')+rows.length+' records';
-  renderStats(); updSel();
+  $('sub').textContent = (USER ? (USER.name||USER.email)+' \u00b7 ' : '')+rows.length+' records';
+  renderStats(); renderCityBar(); updSel();
 }
 let _d; $('q').addEventListener('input', () => { clearTimeout(_d); _d=setTimeout(()=>{shown=50;render();},150); });
 ['from','to','fSize','fCond','fType','fCity','fUniq'].forEach(i => $(i).addEventListener('change', () => {shown=50;render();}));
@@ -424,7 +406,7 @@ $('list').addEventListener('click', e => {
 });
 
 function cacheRows(){
-  LS.setItem('rows', JSON.stringify(rows.map(r => { const c={...r}; delete c._h; return c; })));
+  LS.setItem(K('rows'), JSON.stringify(rows.map(r => { const c={...r}; delete c._h; return c; })));
   siteIdx = null;
   const set = new Set(); rows.forEach(r => r.type && set.add(r.type.trim()));
   const types = [...set].sort();
@@ -432,56 +414,65 @@ function cacheRows(){
   const cur = $('fType').value;
   $('fType').innerHTML = '<option value="">All</option>'+types.map(t=>'<option>'+esc(t)+'</option>').join('');
   $('fType').value = types.includes(cur) ? cur : '';
-  const cs = new Set(); rows.forEach(r => r.city && cs.add(r.city.trim()));
-  const cities = [...cs].sort(), cc = $('fCity').value;
-  $('fCity').innerHTML = '<option value="">All</option>'+cities.map(t=>'<option>'+esc(t)+'</option>').join('');
-  $('fCity').value = cities.includes(cc) ? cc : '';
-  CITY_ALL = null;
+  const cs = [...new Set(rows.map(r=>(r.city||'').trim()).filter(Boolean))].sort();
+  const cc = $('fCity').value;
+  $('fCity').innerHTML = '<option value="">All</option>'+cs.map(c=>'<option>'+esc(c)+'</option>').join('');
+  $('fCity').value = cs.includes(cc) ? cc : '';
 }
 
 /* ================= NETWORK ================= */
-const maxRow = () => rows.reduce((m,r) => Math.max(m, r.row||0), 1);
-let loading=false;
-async function rawPost(payload, signal){
-  const r = await fetch(URL_, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload), signal });
-  return r.json();
-}
-function authExpired(){
-  if (!SESSION) return;
-  SESSION = null; LS.removeItem('session'); showLogin('Login ka waqt khatam ho gaya, dobara login karein.');
-}
-async function api(payload, signal){
-  if (!SESSION) throw new Error('auth');
-  const j = await rawPost(Object.assign({}, payload, { token: SESSION.token }), signal);
-  if (!j.ok) { if (j.error==='auth') authExpired(); throw new Error(j.error||'fail'); }
-  return j;
-}
-async function load(full){
-  if (!URL_ || !SESSION || loading) return false;
-  loading=true; $('btnRef').classList.add('spin');
-  const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), 25000);
+async function api(payload, ms){
+  const ctl = new AbortController(), to = setTimeout(()=>ctl.abort(), ms||25000);
   try {
-    const after = full ? 1 : maxRow();
-    const j = await api({action:'list', after}, ctl.signal);
-    const got = (j.rows||[]).map(expand);
-    if (!full && j.last < after) { loading=false; return load(true); }
-    if (full) { rows = got.concat(rows.filter(x => !x.row && (inflight.has(x._pid) || pending.some(p => !p.action && p._pid && p._pid===x._pid)))); }
-    else if (got.length) { const have=new Set(rows.map(x=>x.row)); got.forEach(x => { if(!have.has(x.row)) rows.push(x); }); }
-    fixDates(rows); cacheRows(); render(); return true;
+    const r = await fetch(URL_, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload), signal: ctl.signal });
+    const j = await r.json();
+    if (j && j.auth===false) { sessionExpired(); throw new Error('auth'); }
+    return j;
+  } finally { clearTimeout(to); }
+}
+function sessionExpired(){
+  if (!USER || !USER.token) return;
+  USER.token = ''; LS.setItem('user', JSON.stringify(USER));
+  $('lgEmail').value = USER.email; LG(1); toast('Session khatam - dobara login karein','bad');
+}
+function savePending(){
+  LS.setItem(K('pending'), JSON.stringify(pending));
+  const p=$('pend');
+  if (pending.length) { p.style.display='block'; p.textContent=pending.length+' change offline saved, internet aate hi sync honge.'; } else p.style.display='none';
+}
+// Har change queue me jata hai, phir server ko batch me. id se upsert hota hai, is liye dobara bhejna safe hai.
+async function flush(){
+  if (!USER || !USER.token || !URL_ || flushing || !pending.length) return !pending.length;
+  flushing = true;
+  try {
+    const sent = pending.slice();
+    const j = await api({ action:'batch', token:USER.token, ops:sent });
+    if (!j.ok) throw new Error(j.error||'fail');
+    pending = pending.slice(sent.length); savePending();
+    return !pending.length;
   } catch(e){ return false; }
-  finally { clearTimeout(to); loading=false; $('btnRef').classList.remove('spin'); }
+  finally { flushing = false; }
 }
-const send = payload => api(payload);
-const post = rec => send(rec).then(j => j.row);
-function savePending(){ LS.setItem('pending', JSON.stringify(pending)); const p=$('pend'); if(pending.length){p.style.display='block';p.textContent=pending.length+' change offline saved, internet aate hi sheet me jayenge.';} else p.style.display='none'; }
-async function syncPending(){
-  if (!URL_ || !pending.length) return;
-  const left=[]; let n=0;
-  for (const r of pending) { try { await send(r); n++; } catch(e){ left.push(r); } }
-  pending = left; savePending();
-  if (n) { toast(n+' offline change sync ho gaye','ok'); load(true); }
+function queue(op){
+  mut++; pending.push(op); savePending();
+  flush().then(ok => { if (!ok && pending.length) toast('Offline - baad me sync hoga',''); });
 }
-$('btnRef').onclick = async () => { render(); const ok = await load(true); toast(ok?'Refresh ho gaya ('+rows.length+' records)':'Connection fail - URL check karein', ok?'ok':'bad'); };
+async function load(){
+  if (!USER || !USER.token || !URL_ || loading) return false;
+  loading = true; $('btnRef').classList.add('spin');
+  try {
+    if (pending.length && !(await flush())) return false;      // pehle apni changes bhejein, warna server se purana data aa kar overwrite kar de ga
+    const m0 = mut;
+    const j = await api({ action:'list', token:USER.token });
+    if (!j.ok) throw new Error(j.error||'fail');
+    if (pending.length || mut!==m0) return false;              // dauran koi nayi change hui, overwrite na karein
+    rows = (j.rows||[]).map(expand);
+    if (j.name && j.name!==USER.name) { USER.name=j.name; LS.setItem('user', JSON.stringify(USER)); }
+    cacheRows(); render(); return true;
+  } catch(e){ return false; }
+  finally { loading = false; $('btnRef').classList.remove('spin'); }
+}
+$('btnRef').onclick = async () => { render(); const ok = await load(); toast(ok?'Refresh ho gaya ('+rows.length+' records)':'Connection fail - internet check karein', ok?'ok':'bad'); };
 
 /* ================= FORM ================= */
 function chipGet(g){ const a=$(g).querySelector('.chip.on'); return a ? a.dataset.v : ''; }
@@ -506,7 +497,7 @@ function attach(field){
     const qd=digits(q);
     const list = sites().filter(s => field==='ownerMob' ? (qd.length>=2 && digits(s.ownerMob).includes(qd)) : String(s[field]).toLowerCase().includes(q)).slice(0,8);
     if (!list.length) return hide();
-    box.innerHTML = list.map((s,i)=>'<div data-i="'+i+'"><b>'+esc(s.address||'(no address)')+'</b><span>'+esc(s.ownerName)+' &middot; '+esc(s.ownerMob)+' &middot; last: '+esc(fmt(s.date))+'</span></div>').join('');
+    box.innerHTML = list.map((s,i)=>'<div data-i="'+i+'"><b>'+esc(s.address||'(no address)')+'</b><span>'+esc(s.ownerName)+' &middot; '+esc(s.ownerMob)+(s.city?' &middot; '+esc(s.city):'')+' &middot; last: '+esc(fmt(s.date))+'</span></div>').join('');
     box.style.display='block'; box._list=list;
   });
   box.addEventListener('pointerdown', e => { const d=e.target.closest('div[data-i]'); if(!d) return; e.preventDefault(); fillFrom(box._list[+d.dataset.i]); hide(); });
@@ -514,9 +505,65 @@ function attach(field){
 }
 ['ownerName','ownerMob','address'].forEach(attach);
 
+/* ---- city search (Pakistan ke cities / towns + apni purani + nayi custom) ---- */
+const nz = s => String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const titleCase = s => String(s).trim().replace(/\s+/g,' ').toLowerCase().replace(/(^|[\s\-])([a-z])/g, (m,a,b) => a+b.toUpperCase());
+function cityResults(q, limit){
+  const k = nz(q), freq = {};
+  rows.forEach(r => { const c=(r.city||'').trim(); if (c) freq[c]=(freq[c]||0)+1; });
+  const own = Object.keys(freq).sort((a,b)=>freq[b]-freq[a]);
+  const ownSet = new Set(own.map(nz));
+  const pool = own.map(n=>({name:n, sub:'pehle use ki'})).concat((window.PK_CITIES||[]).filter(c=>!ownSet.has(nz(c[0]))).map(c=>({name:c[0], sub:c[1]})));
+  let out;
+  if (!k) { const top=new Set((window.PK_TOP||[]).map(nz)); out = pool.filter((c,i) => i<own.length ? i<6 : top.has(nz(c.name))); }
+  else { const a=[], b=[]; pool.forEach(c => { const n=nz(c.name); if (n.startsWith(k)) a.push(c); else if (n.includes(k)) b.push(c); }); out = a.concat(b); }
+  out = out.slice(0, limit);
+  if (k && !out.some(c => nz(c.name)===k)) out.push({name:titleCase(q), sub:'Nayi city add karein', custom:true});
+  return out;
+}
+function canonCity(v){
+  v = String(v||'').trim(); if (!v) return '';
+  const k=nz(v), own=rows.find(r=>nz(r.city)===k), f=(window.PK_CITIES||[]).find(c=>nz(c[0])===k);
+  return own ? own.city : f ? f[0] : titleCase(v);
+}
+(function(){
+  const inp=$('city'), box=$('sug_city'), hide=()=>box.style.display='none';
+  const show=()=>{ const l=cityResults(inp.value.trim(), 8); if(!l.length) return hide();
+    box.innerHTML=l.map((c,i)=>'<div data-i="'+i+'"><b>'+esc(c.name)+'</b><span>'+esc(c.sub)+'</span></div>').join(''); box._list=l; box.style.display='block'; };
+  inp.addEventListener('input', show); inp.addEventListener('focus', show);
+  box.addEventListener('pointerdown', e => { const d=e.target.closest('div[data-i]'); if(!d) return; e.preventDefault(); inp.value=box._list[+d.dataset.i].name; hide(); });
+  inp.addEventListener('blur', () => setTimeout(hide,200));
+})();
+
+/* ---- today city ---- */
+function drawCityList(){
+  const l = cityResults($('cityQ').value.trim(), 40);
+  $('cityList')._l = l;
+  $('cityList').innerHTML = l.map((c,i)=>'<button data-i="'+i+'"><b>'+esc(c.name)+'</b><span>'+esc(c.sub)+'</span></button>').join('');
+}
+$('btnCity').onclick = () => { $('cityQ').value=''; drawCityList(); $('cityOv').classList.add('on'); };
+$('cityQ').addEventListener('input', drawCityList);
+$('cityList').addEventListener('click', e => { const b=e.target.closest('button[data-i]'); if(!b) return; $('cityOv').classList.remove('on'); setTodayCity($('cityList')._l[+b.dataset.i].name); });
+$('cityX').onclick = () => $('cityOv').classList.remove('on');
+$('cityClear').onclick = () => { $('cityOv').classList.remove('on'); setTodayCity(''); toast('Today city hata di'); };
+$('cityOv').addEventListener('click', e => { if (e.target===$('cityOv')) $('cityX').onclick(); });
+function setTodayCity(c){
+  c = canonCity(c);
+  TC = c ? { date:todayISO(), city:c } : null;
+  LS.setItem(K('tc'), JSON.stringify(TC)); renderCityBar();
+  if (!c) return;
+  const miss = rows.filter(r => r.date===todayISO() && !(r.city||'').trim());
+  if (!miss.length) return toast('Aaj ki city: '+c, 'ok');
+  askConfirm('Aaj ki entries me city lagayen?', 'Aaj ki '+miss.length+' entries me city nahi hai. Kya sab me "'+c+'" laga dein?', 'Haan, laga do', () => {
+    miss.forEach(r => { r.city=c; delete r._h; queue({op:'save', rec:wire(r)}); });
+    cacheRows(); render(); toast('Aaj ki city: '+c, 'ok');
+  }, false);
+}
+
 function fillFrom(s){
   $('ownerName').value=s.ownerName||''; $('ownerMob').value=s.ownerMob||''; $('address').value=s.address||'';
-  $('type').value=s.type||''; $('city').value=s.city||''; $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||'';
+  $('type').value=s.type||''; $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||'';
+  $('city').value = todayCity() || s.city || '';
   const [sn,su]=parseSize(s.size); $('sizeNum').value=sn; chipSet('sizeUnit',su);
   const [cn,cu]=parseCond(s.condition); $('condNum').value=cn; chipSet('condUnit',cu);
   $('date').value=todayISO();
@@ -524,14 +571,14 @@ function fillFrom(s){
   b.innerHTML='<b>Revisit:</b> purana record load ho gaya (last visit '+esc(fmt(s.date))+'). Change karna ho to karein, phir Save. Naya record aaj ki date par banega.';
 }
 function clearForm(){
-  ['ownerName','ownerMob','address','city','sizeNum','type','meetName','meetMob','condNum','ticket'].forEach(i=>$(i).value='');
+  ['ownerName','ownerMob','address','sizeNum','type','meetName','meetMob','condNum','ticket'].forEach(i=>$(i).value='');
+  $('city').value = todayCity();
   chipSet('sizeUnit',''); chipSet('condUnit',''); $('date').value=todayISO(); $('banner').style.display='none';
 }
 function openForm(rec, mode){
   clearForm(); editing = null;
   if (rec) fillFrom(rec);
-  if (mode!=='edit') { const tc=getTodayCity(); if (tc) $('city').value=tc; }
-  if (mode==='edit') { editing = rec; $('date').value = rec.date || todayISO(); const b=$('banner'); b.style.display='block'; b.innerHTML='<b>Edit:</b> is record me changes karein, phir Update dabayen. Sheet me bhi update ho jayega.'; }
+  if (mode==='edit') { editing = rec; $('date').value = rec.date || todayISO(); $('city').value = rec.city || ''; const b=$('banner'); b.style.display='block'; b.innerHTML='<b>Edit:</b> is record me changes karein, phir Update dabayen.'; }
   $('fTitle').textContent = mode==='edit' ? 'Edit Record' : rec ? 'Revisit' : 'New Visit';
   $('save').textContent = mode==='edit' ? 'Update Record' : 'Save Record';
   $('form').classList.add('on'); $('form').scrollTop=0;
@@ -539,208 +586,124 @@ function openForm(rec, mode){
 function closeForm(){ $('form').classList.remove('on'); editing=null; }
 $('fab').onclick = () => openForm(null);
 $('fClose').onclick = closeForm;
-$('clear').onclick = () => { const e=editing; clearForm(); if(e){ editing=e; $('date').value=e.date||todayISO(); } };
+$('clear').onclick = () => { const e=editing; clearForm(); if(e){ editing=e; $('date').value=e.date||todayISO(); $('city').value=''; } };
 
 function buildRec(){
   const sn=$('sizeNum').value.trim(), su=chipGet('sizeUnit'), cn=$('condNum').value.trim(), cu=chipGet('condUnit');
   if (sn && isNum(sn) && !su) { toast('Site Size: Marla ya Canal select karein','bad'); return null; }
   if (cn && isNum(cn) && !cu) { toast('Condition: Day/Week/Month/Year select karein','bad'); return null; }
-  const rec = { date:$('date').value||todayISO(), ownerName:$('ownerName').value.trim(), ownerMob:$('ownerMob').value.trim(),
+  const rec = { date:$('date').value||todayISO(), city:canonCity($('city').value), ownerName:$('ownerName').value.trim(), ownerMob:$('ownerMob').value.trim(),
     size: su?(sn+' '+su):sn, type:$('type').value.trim(), meetName:$('meetName').value.trim(), meetMob:$('meetMob').value.trim(),
-    address:$('address').value.trim(), city:$('city').value.trim(), condition: cu?(cn+' '+cu+((+cn===1)?'':'s')):cn, ticket:$('ticket').value.trim() };
+    address:$('address').value.trim(), condition: cu?(cn+' '+cu+((+cn===1)?'':'s')):cn, ticket:$('ticket').value.trim() };
   if (!rec.address && !rec.ownerName) { toast('Site Address ya Owner Name likhein','bad'); return null; }
   return rec;
 }
-function doEdit(old, rec){
-  if (old.row) {
-    const orig = vals(old);
-    Object.assign(old, rec); delete old._h;
-    cacheRows(); render(); closeForm(); toast('Updated','ok');
-    const op = { action:'edit', row:old.row, orig, rec };
-    send(op).catch(() => { pending.push(op); savePending(); toast('Offline - update baad me sync hoga',''); });
-  } else {
-    const p = pending.find(x => !x.action && x._pid && x._pid===old._pid);
-    if (!p) return toast('Record sync ho raha hai, thori dair baad edit karein','bad');
-    Object.assign(p, rec); Object.assign(old, rec); delete old._h;
-    savePending(); cacheRows(); render(); closeForm(); toast('Updated','ok');
-  }
-}
 $('save').onclick = () => {
   const rec = buildRec(); if (!rec) return;
-  if (!URL_ || !SESSION) { toast('Pehle login karein','bad'); return; }
-  if (editing) return doEdit(editing, rec);
-  if (!rec.city && rec.date===todayISO()) rec.city = getTodayCity();
-  rec._pid = uid(); inflight.add(rec._pid);
-  rows.push(rec); cacheRows(); shown=50; render(); closeForm(); toast('Saved','ok');
-  post(rec).then(row => { rec.row = row; inflight.delete(rec._pid); cacheRows(); })
-           .catch(() => { inflight.delete(rec._pid); pending.push(rec); savePending(); toast('Offline - baad me sync hoga',''); });
+  if (!USER || !USER.token) return toast('Pehle login karein','bad');
+  let r, msg;
+  if (editing) { r = editing; Object.assign(r, rec); delete r._h; msg='Updated'; }
+  else { r = Object.assign(rec, { id:uid(), _o:nextO() }); rows.push(r); msg='Saved'; }
+  queue({ op:'save', rec:wire(r) });
+  cacheRows(); shown=50; render(); closeForm(); toast(msg,'ok');
 };
 
 /* ================= DELETE ================= */
 let confFn = null;
-function askConfirm(t, m, yes, fn, safe){ $('cT').textContent=t; $('cP').textContent=m; $('cY').textContent=yes; $('cY').classList.toggle('dng', !safe); confFn=fn; $('conf').classList.add('on'); }
+function askConfirm(t, m, yes, fn, danger){
+  $('cT').textContent=t; $('cP').textContent=m; $('cY').textContent=yes; confFn=fn;
+  $('cY').classList.toggle('dng', danger!==false); $('conf').classList.add('on');
+}
 $('cN').onclick = () => { $('conf').classList.remove('on'); confFn=null; };
 $('conf').addEventListener('click', e => { if (e.target===$('conf')) $('cN').onclick(); });
 $('cY').onclick = () => { $('conf').classList.remove('on'); const f=confFn; confFn=null; if (f) f(); };
 function askDelete(list){
   const one = list.length===1;
   askConfirm(one ? 'Delete record?' : 'Delete '+list.length+' records?',
-    (one ? (list[0].address||list[0].ownerName||'Ye record') : 'Selected records')+' sheet se bhi hamesha ke liye delete ho jayega.', 'Yes, Delete', () => doDelete(list));
+    (one ? (list[0].address||list[0].ownerName||'Ye record') : 'Selected records')+' hamesha ke liye delete ho jayega.', 'Yes, Delete', () => doDelete(list));
 }
 function doDelete(list){
-  if (!URL_ || !SESSION) return toast('Pehle login karein','bad');
-  const synced = list.filter(r => r.row), local = list.filter(r => !r.row);
-  const items = synced.map(r => ({ row:r.row, orig:vals(r) }));
-  const del = synced.map(r => r.row).sort((a,b)=>a-b), gone = new Set(list);
+  const ids = list.map(r=>r.id), gone = new Set(list);
   rows = rows.filter(r => !gone.has(r));
-  rows.forEach(r => { if (r.row) { let c=0; for (const d of del) { if (d<r.row) c++; else break; } r.row -= c; } });
-  if (local.length) { const ids=new Set(local.map(r=>r._pid)); pending = pending.filter(p => p.action || !ids.has(p._pid)); savePending(); }
+  queue({ op:'del', ids });
   cacheRows(); selMode ? setSel(false) : render();
   toast(list.length+' record delete ho gaye','ok');
-  if (items.length) {
-    const op = { action:'delete', items };
-    send(op).catch(() => { pending.push(op); savePending(); toast('Offline - delete baad me sync hoga',''); });
-  }
 }
 
-/* ================= CITY ================= */
-let CITY_ALL = null;
-const nk = x => String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-function cityPool(){
-  if (CITY_ALL) return CITY_ALL;
-  const m = new Map(); (window.PK_CITIES||[]).forEach(c => m.set(nk(c), c));
-  rows.forEach(r => { const c=(r.city||'').trim(); if (c && !m.has(nk(c))) m.set(nk(c), c); });
-  return CITY_ALL = [...m.values()].sort((a,b)=>a.localeCompare(b));
-}
-function recentCities(){
-  const f={}; rows.forEach(r => { const c=(r.city||'').trim(); if(c) f[c]=(f[c]||0)+1; });
-  return Object.keys(f).sort((a,b)=>f[b]-f[a]);
-}
-function cityMatches(q, n){
-  const k = nk(q);
-  if (!k) { const rc=recentCities().slice(0,8); return rc.length ? rc : ['Lahore','Karachi','Islamabad','Rawalpindi','Faisalabad','Multan','Gujranwala','Peshawar'].slice(0,n); }
-  const pool = cityPool(), a=[], b=[];
-  pool.forEach(c => { const x=nk(c); if (x.startsWith(k)) a.push(c); else if (x.includes(k)) b.push(c); });
-  return a.concat(b).slice(0,n);
-}
-const getTodayCity = () => { const t=jget('todayCity',null); return t && t.date===todayISO() ? t.city : ''; };
-function renderTcity(){ const c=getTodayCity(); $('tcityTxt').textContent = c || 'Select karein'; $('tcity').classList.toggle('set', !!c); }
-function renderCityList(){
-  const q=$('cpQ').value.trim(), list=cityMatches(q,40);
-  let h=list.map(c => '<div class="cpi" data-c="'+esc(c)+'"><b>'+esc(c)+'</b></div>').join('');
-  if (q && !list.some(c => nk(c)===nk(q))) h+='<div class="cpi" data-c="'+esc(q)+'"><b>Use "'+esc(q)+'"</b><span>List me nahi, jaisa likha hai wesa add hoga</span></div>';
-  $('cpList').innerHTML = h || '<div class="empty">Koi city nahi mili</div>';
-}
-function openCityPicker(){ $('cpQ').value=''; renderCityList(); $('cityOv').classList.add('on'); setTimeout(()=>$('cpQ').focus(),250); }
-function closeCityPicker(){ $('cityOv').classList.remove('on'); }
-$('tcity').onclick = openCityPicker;
-$('cpClose').onclick = closeCityPicker;
-$('cityOv').addEventListener('click', e => { if (e.target===$('cityOv')) closeCityPicker(); });
-$('cpQ').addEventListener('input', renderCityList);
-$('cpClear').onclick = () => { LS.removeItem('todayCity'); renderTcity(); closeCityPicker(); toast('Today city hata di gayi'); };
-$('cpList').addEventListener('click', e => { const d=e.target.closest('.cpi'); if (d) setTodayCity(d.dataset.c); });
-function recOf(r){ return { date:r.date, ownerName:r.ownerName, ownerMob:r.ownerMob, size:r.size, type:r.type, meetName:r.meetName, meetMob:r.meetMob, address:r.address, condition:r.condition, ticket:r.ticket, city:r.city||'' }; }
-function setTodayCity(c){
-  c = String(c||'').trim(); if (!c) return;
-  LS.setItem('todayCity', JSON.stringify({city:c, date:todayISO()}));
-  closeCityPicker(); renderTcity(); toast('Today city: '+c,'ok');
-  const miss = rows.filter(r => r.date===todayISO() && !r.city);
-  if (miss.length) askConfirm('Aaj ki purani entries?', 'Aaj ki '+miss.length+' entries me city khali hai. In sab me "'+c+'" laga dein?', 'Haan, laga do', () => applyCity(miss, c), true);
-}
-async function applyCity(list, c){
-  for (const r of list) {
-    if (r.row) {
-      const orig = vals(r); r.city = c; delete r._h;
-      const op = { action:'edit', row:r.row, orig, rec:recOf(r) };
-      try { await send(op); } catch(e){ pending.push(op); savePending(); }
-    } else {
-      const p = pending.find(x => !x.action && x._pid && x._pid===r._pid);
-      if (p) { p.city = c; r.city = c; delete r._h; }
-    }
-  }
-  savePending(); cacheRows(); render(); toast('City laga di gayi','ok');
-}
-(function(){
-  const inp=$('city'), box=$('sug_city'), hide=()=>box.style.display='none';
-  const show=()=>{ const list=cityMatches(inp.value.trim(),8); if(!list.length) return hide();
-    box.innerHTML=list.map(c=>'<div data-c="'+esc(c)+'"><b>'+esc(c)+'</b></div>').join(''); box.style.display='block'; };
-  inp.addEventListener('input', show); inp.addEventListener('focus', show);
-  box.addEventListener('pointerdown', e => { const d=e.target.closest('div[data-c]'); if(!d) return; e.preventDefault(); inp.value=d.dataset.c; hide(); });
-  inp.addEventListener('blur', () => setTimeout(hide,200));
-})();
-
-/* ================= LOGIN / SETTINGS ================= */
-const NATIVE = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
-const GA = () => window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.GoogleAuth;
-function showLogin(msg){
-  $('loginErr').textContent = msg || '';
-  $('loginUrl').style.display = URL_ ? 'none' : 'block';
-  $('gNative').style.display = NATIVE ? 'flex' : 'none';
-  $('gweb').style.display = NATIVE ? 'none' : 'flex';
+/* ================= LOGIN / ACCOUNT ================= */
+function LG(n){
   $('login').classList.add('on');
-  if (!NATIVE) initWebLogin();
+  ['1','2','3'].forEach(i => $('lg'+i).style.display = i===String(n) ? 'block' : 'none');
+  $('lgUrlBox').style.display = CFG_URL ? 'none' : 'block';
+  if (!CFG_URL) $('lgUrl').value = URL_;
 }
-function loginBusy(b){ $('gNative').disabled=b; if (b) $('loginErr').textContent='Login ho raha hai...'; }
-async function finishLogin(idToken){
-  if (!URL_) { const u=$('loginUrl').value.trim(); if (!/^https:\/\/script\.google\.com\//.test(u)) throw new Error('Pehle sahi Web App URL daalein'); URL_=u; LS.setItem('url',u); }
-  const j = await rawPost({ action:'login', idToken });
-  if (!j.ok) throw new Error(j.error||'Login fail');
-  if (LS.getItem('owner') !== j.user.email) { rows=[]; pending=[]; LS.removeItem('todayCity'); LS.setItem('rows','[]'); savePending(); LS.setItem('owner', j.user.email); }
-  SESSION = { token:j.token, exp:j.exp, email:j.user.email, name:j.user.name, picture:j.user.picture };
-  LS.setItem('session', JSON.stringify(SESSION));
-  $('login').classList.remove('on'); $('loginErr').textContent='';
-  cacheRows(); render(); renderTcity();
-  await load(true); syncPending();
+function busy(btn, on, txt){ btn.disabled = on; if (on) { btn._t = btn.textContent; btn.textContent = txt; } else if (btn._t) btn.textContent = btn._t; }
+function wipeData(keepEmail){
+  for (let i=LS.length-1; i>=0; i--) {
+    const k = LS.key(i);
+    if (/^(rows|pending|tc)_/.test(k) && (keepEmail==null || k.slice(k.indexOf('_')+1)!==keepEmail)) LS.removeItem(k);
+  }
 }
-$('gNative').onclick = async () => {
-  loginBusy(true);
+function enterApp(){ $('login').classList.remove('on'); cacheRows(); savePending(); render(); load(); }
+
+$('lgSend').onclick = async () => {
+  const email = $('lgEmail').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Email sahi likhein','bad');
+  if (!CFG_URL) { const u=$('lgUrl').value.trim(); if (!/^https:\/\/script\.google\.com\//.test(u)) return toast('Web App URL galat hai','bad'); URL_=u; LS.setItem('url',u); }
+  if (!URL_) return toast('App ka server URL set nahi hai (config.js)','bad');
+  busy($('lgSend'), true, 'Code bhej rahe hain...');
   try {
-    const G = GA(); if (!G) throw new Error('Google login plugin nahi mila');
-    const u = await G.signIn();
-    const t = u && u.authentication && u.authentication.idToken;
-    if (!t) throw new Error('Google token nahi mila');
-    await finishLogin(t);
-  } catch(e){ $('loginErr').textContent = 'Login nahi hua: '+(e && e.message || e && e.error || e); }
-  loginBusy(false);
+    const j = await api({ action:'sendOtp', email });
+    if (!j.ok) return toast(j.error||'Code nahi bheja ja saka','bad');
+    pendingEmail = email; $('lgCode').value='';
+    $('lgInfo').textContent = email+' par 6-digit code bheja gaya hai. Spam folder bhi dekh lein.';
+    LG(2);
+  } catch(e){ toast('Internet / URL check karein','bad'); }
+  finally { busy($('lgSend'), false); }
 };
-let gisReady=false;
-function initWebLogin(){
-  if (gisReady || !CLIENT_ID) { if (!CLIENT_ID) $('loginErr').textContent='config.js me clientId daalein'; return; }
-  const sc=document.createElement('script'); sc.src='https://accounts.google.com/gsi/client'; sc.async=true;
-  sc.onload=()=>{ gisReady=true; google.accounts.id.initialize({ client_id:CLIENT_ID, callback: r => { loginBusy(true); finishLogin(r.credential).catch(e => { $('loginErr').textContent='Login nahi hua: '+(e && e.message||e); }).finally(()=>loginBusy(false)); } }); google.accounts.id.renderButton($('gweb'),{theme:'outline',size:'large',text:'signin_with',width:300}); };
-  document.head.appendChild(sc);
+$('lgBack').onclick = () => LG(1);
+$('lgVerify').onclick = async () => {
+  const code = $('lgCode').value.trim();
+  if (code.length<6) return toast('6-digit code likhein','bad');
+  busy($('lgVerify'), true, 'Check ho raha hai...');
+  try {
+    const j = await api({ action:'verifyOtp', email:pendingEmail, code });
+    if (!j.ok) return toast(j.error||'Code ghalat','bad');
+    USER = { email:j.email, name:j.name||'', token:j.token }; LS.setItem('user', JSON.stringify(USER));
+    wipeData(USER.email); loadLocal();
+    if (!USER.name) { LG(3); } else enterApp();
+  } catch(e){ toast('Connection fail','bad'); }
+  finally { busy($('lgVerify'), false); }
+};
+async function saveName(name, after){
+  name = name.trim(); if (!name) return toast('Apna naam likhein','bad');
+  try {
+    const j = await api({ action:'setName', token:USER.token, name });
+    if (!j.ok) return toast(j.error||'Save nahi hua','bad');
+    USER.name = j.name; LS.setItem('user', JSON.stringify(USER)); after();
+  } catch(e){ toast('Connection fail','bad'); }
 }
-function openSettings(){
-  const n=(SESSION&&SESSION.name)||'-';
-  $('meName').textContent=n; $('meMail').textContent=(SESSION&&SESSION.email)||''; $('meAv').textContent=n.trim().charAt(0).toUpperCase()||'?';
-  $('urlBox').style.display = cfgUrl ? 'none' : 'block'; $('url').value=URL_;
-  $('set').classList.add('on');
-}
-$('btnSet').onclick = openSettings;
+$('lgSaveName').onclick = () => saveName($('lgName').value, enterApp);
+$('btnSet').onclick = () => { $('accMail').textContent = USER ? USER.email : ''; $('accName').value = USER ? USER.name : ''; $('set').classList.add('on'); };
 $('setClose').onclick = () => $('set').classList.remove('on');
-$('logout').onclick = () => {
-  const go = async () => {
-    try { const G=GA(); if (G && G.signOut) await G.signOut(); } catch(e){}
-    SESSION=null; LS.removeItem('session'); LS.removeItem('owner'); LS.removeItem('todayCity');
-    rows=[]; pending=[]; LS.setItem('rows','[]'); savePending(); selMode=false; document.body.classList.remove('sm');
-    $('set').classList.remove('on'); cacheRows(); render(); renderTcity(); showLogin('');
-  };
-  if (pending.length) askConfirm('Logout?', pending.length+' offline changes abhi sync nahi hue, logout par ye zaya ho jayenge.', 'Phir bhi logout', go);
-  else go();
-};
-$('saveUrl').onclick = async () => {
-  const u=$('url').value.trim();
-  if (!/^https:\/\/script\.google\.com\//.test(u)) return toast('URL galat lag raha hai','bad');
-  URL_=u; LS.setItem('url',u);
-  const ok = await load(true);
-  toast(ok?'Connected: '+rows.length+' records':'Connection fail', ok?'ok':'bad');
-  if (ok) $('set').classList.remove('on');
+$('accSave').onclick = () => saveName($('accName').value, () => { $('set').classList.remove('on'); render(); toast('Naam save ho gaya','ok'); });
+function doLogout(){
+  const t = USER && USER.token;
+  if (t && URL_) api({ action:'logout', token:t }).catch(()=>{});
+  wipeData(null); LS.removeItem('user');
+  USER=null; rows=[]; pending=[]; TC=null; selMode=false; sel.clear(); document.body.classList.remove('sm');
+  closeForm(); $('set').classList.remove('on'); $('pend').style.display='none';
+  $('fCity').innerHTML='<option value="">All</option>'; $('fType').innerHTML='<option value="">All</option>'; $('typeList').innerHTML='';
+  render(); $('lgEmail').value=''; LG(1);
+}
+$('accOut').onclick = () => {
+  $('set').classList.remove('on');
+  askConfirm('Logout?', pending.length ? pending.length+' changes abhi sync nahi hui, logout se wo chali jayengi.' : 'Is device se aap ka saved data hat jayega. Dobara login par wapas aa jayega.', 'Logout', doLogout);
 };
 
 /* ================= EXPORT (Excel + PDF) ================= */
-const HEADS = ['Date','Owner Name','Owner Mob','Site Size','Site Type','Meet with / Name','Mobile','Site Address','City','Site condition for estimated time for paint','Ticket No'];
-const vals = r => [r.date, r.ownerName, r.ownerMob, r.size, r.type, r.meetName, r.meetMob, r.address, r.condition, r.ticket];
-const xvals = r => [r.date, r.ownerName, r.ownerMob, r.size, r.type, r.meetName, r.meetMob, r.address, r.city||'', r.condition, r.ticket];
+const HEADS = ['Date','City','Owner Name','Owner Mob','Site Size','Site Type','Meet with / Name','Mobile','Site Address','Site condition for estimated time for paint','Ticket No'];
+const vals = r => [r.date, r.city, r.ownerName, r.ownerMob, r.size, r.type, r.meetName, r.meetMob, r.address, r.condition, r.ticket];
 let expItems = [], expTag = '';
 function rangeText(){
   const f=$('from').value, t=$('to').value;
@@ -752,8 +715,8 @@ function fileBase(){
   const dmy = iso => iso.slice(8,10)+'_'+iso.slice(5,7)+'_'+iso.slice(0,4);
   let rng = '';
   if (ds.length) rng = ds[0]===ds[ds.length-1] ? dmy(ds[0]) : dmy(ds[0])+' to '+dmy(ds[ds.length-1]);
-  const who = String((SESSION && SESSION.name) || 'Kaizen').replace(/[\\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim() || 'Kaizen';
-  return who+' Kaizen Report'+(rng?' ('+rng+')':'');
+  const nm = String((USER && (USER.name || USER.email.split('@')[0])) || 'My').replace(/[\\\/:*?"<>|]+/g,' ').replace(/\s+/g,' ').trim() || 'My';
+  return nm+' Kaizen Report'+(rng?' ('+rng+')':'');
 }
 function openExport(list, tag){
   if (!list.length) return toast('Export ke liye koi record nahi','bad');
@@ -797,11 +760,11 @@ const b64 = u8 => { let s=''; for(let i=0;i<u8.length;i+=0x8000) s+=String.fromC
 const xe = s => String(s==null?'':s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function buildXLSX(list){
-  const L='ABCDEFGHIJK', widths=[13,20,16,12,20,20,16,36,16,24,12];
+  const L='ABCDEFGHIJK', widths=[13,16,20,16,12,20,20,16,36,24,12];
   const str=(ref,v,s)=>'<c r="'+ref+'"'+(s?' s="'+s+'"':'')+' t="inlineStr"><is><t xml:space="preserve">'+xe(v)+'</t></is></c>';
   let sd='<row r="1" ht="32" customHeight="1">'+HEADS.map((h,i)=>str(L[i]+'1',h,1)).join('')+'</row>';
   list.forEach((r,ri) => {
-    const n=ri+2; const v=xvals(r);
+    const n=ri+2; const v=vals(r);
     sd+='<row r="'+n+'">'+v.map((x,i) => {
       const ref=L[i]+n;
       if (i===0) { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(x||''); if (m) return '<c r="'+ref+'" s="2"><v>'+(Date.UTC(+m[1],+m[2]-1,+m[3])/86400000+25569)+'</v></c>'; }
@@ -857,11 +820,11 @@ const p2h = n => (n<16?'0':'')+n.toString(16);
 
 function buildPDF(list, hex){
   const W=842,H=595,M=28,fs=7.5,lh=9.5,pad=3.5;
-  const cols=[['Date',50],['Owner Name',78],['Owner Mob',66],['Site Size',46],['Site Type',74],['Meet with / Name',74],['Mobile',64],['Site Address',130],['City',52],['Paint Time',52],['Ticket',40]];
+  const cols=[['Date',50],['City',54],['Owner Name',78],['Owner Mob',66],['Site Size',46],['Site Type',74],['Meet with / Name',74],['Mobile',64],['Site Address',140],['Paint Time',56],['Ticket',40]];
   const tot=cols.reduce((a,c)=>a+c[1],0), k=(W-2*M)/tot; cols.forEach(c=>c[1]*=k);
   const pages=[]; let ops, y;
   const T=(x,yy,s,size,bold,col)=>ops.push('BT /'+(bold?'F2':'F1')+' '+size+' Tf '+(col||'0.06 0.09 0.16')+' rg '+x.toFixed(2)+' '+yy.toFixed(2)+' Td ('+pe(s)+') Tj ET');
-  const title='Kaizen Site Visits', sub=((SESSION&&SESSION.name)?clean(SESSION.name)+'   |   ':'')+expRange()+'   |   '+list.length+' records';
+  const who = (USER && (USER.name || USER.email)) || '', title='Kaizen Site Visits'+(who?' - '+who:''), sub=expRange()+'   |   '+list.length+' records';
   function newPage(){
     ops=[]; pages.push(ops);
     ops.push('0.06 0.09 0.16 rg 0 '+(H-54)+' '+W+' 54 re f');
@@ -876,7 +839,7 @@ function buildPDF(list, hex){
   }
   newPage();
   list.forEach((r,idx) => {
-    const v=xvals(r); v[0]=fmt(r.date);
+    const v=vals(r); v[0]=fmt(r.date);
     const cells=cols.map((c,i)=>wrapText(v[i],c[1]-2*pad,fs));
     const n=Math.max(...cells.map(c=>c.length)), h=n*lh+2*pad;
     if (y-h < M+14) newPage();
@@ -885,7 +848,7 @@ function buildPDF(list, hex){
     ops.push('0.88 0.9 0.93 RG 0.5 w '+M+' '+(y-h)+' m '+(W-M)+' '+(y-h)+' l S');
     y-=h;
   });
-  pages.forEach((p,i) => { ops=p; const s='Page '+(i+1)+' of '+pages.length; T(W-M-tw(s,7.5,false),M-6,s,7.5,false,'0.4 0.45 0.53'); T(M,M-6,'Kaizen Site Visit',7.5,false,'0.4 0.45 0.53'); });
+  pages.forEach((p,i) => { ops=p; const s='Page '+(i+1)+' of '+pages.length; T(W-M-tw(s,7.5,false),M-6,s,7.5,false,'0.4 0.45 0.53'); T(M,M-6,who||'Kaizen Site Visit',7.5,false,'0.4 0.45 0.53'); });
 
   let out='%PDF-1.4\n'; const offs=[];
   const obj=(n,body)=>{ offs[n]=out.length; out+=n+' 0 obj\n'+body+'\nendobj\n'; };
@@ -937,14 +900,15 @@ $('xP').onclick = async () => {
 // Order: popup -> form -> selection -> filters -> (only then) exit app
 function goBack(){
   const open = id => $(id).classList.contains('on');
-  if (open('login')) return;
   if (open('conf')) { $('cN').onclick(); return; }
-  if (open('cityOv')) { closeCityPicker(); return; }
+  if (open('cityOv')) { $('cityOv').classList.remove('on'); return; }
   if (open('expOv')) { $('expOv').classList.remove('on'); return; }
   if (open('set')) { $('set').classList.remove('on'); return; }
-  if (open('form')) { closeForm(); return; }
-  if (selMode) { setSel(false); return; }
-  if (open('flt')) { $('flt').classList.remove('on'); return; }
+  if (!open('login')) {
+    if (open('form')) { closeForm(); return; }
+    if (selMode) { setSel(false); return; }
+    if (open('flt')) { $('flt').classList.remove('on'); return; }
+  }
   const A = window.Capacitor && Capacitor.Plugins && Capacitor.Plugins.App;
   if (A && A.exitApp) A.exitApp();
 }
@@ -958,18 +922,13 @@ function goBack(){
 })();
 
 /* ================= INIT ================= */
-if ('serviceWorker' in navigator && !NATIVE && /^https?:/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(()=>{});
 (function(){
   $('date').value = todayISO();
-  pending.forEach(p => { if (!p.action && !p._pid) p._pid = uid(); });
-  rows.forEach(r => { if (!r.row && !r._pid) { const m=pending.find(p=>!p.action && JSON.stringify(vals(p))===JSON.stringify(vals(r))); if (m) r._pid=m._pid; } });
-  fixDates(rows); cacheRows(); savePending(); render();
-  renderTcity();
-  if (!URL_ || !SESSION) showLogin('');
-  else load(true).then(()=>syncPending());
-  let lastVis=Date.now();
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) renderTcity(); if (!document.hidden && Date.now()-lastVis>15000 && !pending.length) { lastVis=Date.now(); load(false); } });
-  window.addEventListener('online', () => syncPending().then(()=>load(false)));
+  if (USER && USER.token) { loadLocal(); cacheRows(); savePending(); render(); load(); }
+  else { render(); if (USER) $('lgEmail').value = USER.email; LG(1); }
+  let lastVis = Date.now();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && USER && USER.token && Date.now()-lastVis>15000) { lastVis=Date.now(); render(); load(); } });
+  window.addEventListener('online', () => { if (USER && USER.token) load(); });
 })();
 </script>
 </body>
