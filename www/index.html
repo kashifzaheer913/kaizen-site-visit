@@ -137,6 +137,29 @@ body.sm .selbar{display:flex}
 .lg p{color:var(--mute);margin:0 0 18px;font-size:14px;line-height:1.5}
 .lg .f{text-align:left}
 .btn:disabled{opacity:.6}
+
+/* ===== v2 polish ===== */
+body{background:linear-gradient(180deg,#e9edf5,#f5f6fa 260px) fixed}
+select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>") no-repeat right 12px center;padding-right:34px}
+.stats{grid-template-columns:repeat(4,1fr);gap:8px}
+.st{border-left:0;border-top:4px solid var(--acc);padding:10px 4px 9px;text-align:center;border-radius:16px}
+.st:nth-child(2){border-color:#16a34a}.st:nth-child(3){border-color:#7c3aed}.st:nth-child(4){border-color:#2563eb}
+.st b{font-size:23px}.st span{font-size:11px;letter-spacing:.2px}
+.card{border-radius:18px;box-shadow:0 3px 14px rgba(15,23,42,.08)}
+.dt{background:linear-gradient(160deg,#0f172a,#334155);box-shadow:0 4px 10px rgba(15,23,42,.2)}
+.pt{display:flex;align-items:center;gap:10px;margin-top:9px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:8px 11px}
+.pt svg{width:18px;height:18px;stroke:#0369a1;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pt div{min-width:0;flex:1}
+.pt small{display:block;font-size:10.5px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:.6px}
+.pt b{font-size:13.5px;color:#0f172a;margin-right:8px;word-break:break-word}
+.pt a{color:#0369a1;font-weight:800;font-size:15px}
+.sh{font-size:11.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:#94a3b8;margin:0 0 12px}
+.sec{border-radius:18px;box-shadow:0 3px 14px rgba(15,23,42,.07)}
+.tq{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed var(--acc);background:#fffbeb;color:#92400e;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;margin-bottom:9px}
+.tq.on{background:var(--acc);color:#1c1204;border-style:solid}
+#type{display:none;margin-top:8px}
+.btn:not(.sc):not(.dng){background:linear-gradient(135deg,#0f172a,#334155);box-shadow:0 8px 18px rgba(15,23,42,.25)}
+.btn:active{transform:scale(.99)}
 </style>
 </head>
 <body>
@@ -198,24 +221,24 @@ body.sm .selbar{display:flex}
   <div class="hd"><button class="ib" id="fClose">&#8592;</button><b id="fTitle">New Visit</b></div>
   <div class="fm">
     <div class="banner" id="banner"></div>
-    <div class="sec">
+    <div class="sec"><div class="sh">Visit &amp; Owner</div>
       <div class="f"><label>Date</label><input type="date" id="date"></div>
       <div class="f"><label>City</label><input id="city" autocomplete="off" placeholder="City / town likhein, list se chunein"><div class="sug" id="sug_city"></div></div>
       <div class="f"><label>Owner Name</label><input id="ownerName" autocomplete="off" placeholder="Type karein, purana record aa jayega"><div class="sug" id="sug_ownerName"></div></div>
       <div class="f"><label>Owner Mob</label><input id="ownerMob" autocomplete="off" inputmode="tel" placeholder="03xx-xxxxxxx"><div class="sug" id="sug_ownerMob"></div></div>
       <div class="f"><label>Site Address</label><input id="address" autocomplete="off" placeholder="e.g. H#6,7 Eden Orchard"><div class="sug" id="sug_address"></div></div>
     </div>
-    <div class="sec">
+    <div class="sec"><div class="sh">Site Details</div>
       <div class="f"><label>Site Size</label><input id="sizeNum" inputmode="decimal" autocomplete="off" placeholder="2, 4, 5 ...">
         <div class="chips" id="sizeUnit"><button type="button" class="chip" data-v="Marla">Marla</button><button type="button" class="chip" data-v="Canal">Canal</button></div></div>
-      <div class="f"><label>Site Type</label><input id="type" list="typeList" autocomplete="off" placeholder="e.g. Ready for paint"><datalist id="typeList"></datalist></div>
+      <div class="f"><label>Site Type</label><select id="typeSel"></select><input id="type" autocomplete="off" placeholder="Naya Site Type likhein"></div>
       <div class="f"><label>Site condition for estimated time for paint</label><input id="condNum" inputmode="decimal" autocomplete="off" placeholder="1, 2, 3 ...">
         <div class="chips" id="condUnit"><button type="button" class="chip" data-v="Day">Day</button><button type="button" class="chip" data-v="Week">Week</button><button type="button" class="chip" data-v="Month">Month</button><button type="button" class="chip" data-v="Year">Year</button></div></div>
     </div>
-    <div class="sec">
+    <div class="sec"><div class="sh">Contact &amp; Ticket</div>
       <div class="f"><label>Meet with / Name</label><input id="meetName" autocomplete="off"></div>
-      <div class="f"><label>Mobile</label><input id="meetMob" inputmode="tel" autocomplete="off"></div>
-      <div class="f"><label>Ticket No</label><input id="ticket" autocomplete="off"></div>
+      <div class="f"><label>Mobile (Painter No.)</label><input id="meetMob" inputmode="tel" autocomplete="off" placeholder="03xx-xxxxxxx"></div>
+      <div class="f"><label>Ticket No</label><button type="button" class="tq" id="tkImp">&#10003; Ticket Already Imposed</button><input id="ticket" autocomplete="off"></div>
     </div>
     <button class="btn" id="save">Save Record</button>
     <button class="btn sc" id="clear">Clear form</button>
@@ -298,6 +321,7 @@ const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const IC_REV='<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>';
 const IC_ED='<svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 const IC_DEL='<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg>';
+const IC_PH='<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>';
 const IC_CK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 
 const CFG_URL = (window.APP_CONFIG && APP_CONFIG.url) || '';
@@ -320,7 +344,7 @@ const nextO = () => rows.reduce((m,r)=>Math.max(m,r._o||0),0)+1;
 const expand = (a,i) => ({id:a[0],date:a[1],city:a[2],ownerName:a[3],ownerMob:a[4],size:a[5],type:a[6],meetName:a[7],meetMob:a[8],address:a[9],condition:a[10],ticket:a[11],_o:i+1});
 
 /* ================= DATA LIST ================= */
-function hay(r){ return (r._h ||= (r.city+' '+r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+r.date).toLowerCase()); }
+function hay(r){ return (r._h ||= (r.city+' '+r.address+' '+r.ownerName+' '+r.ownerMob+' '+digits(r.ownerMob)+' '+r.meetName+' '+r.meetMob+' '+digits(r.meetMob)+' '+r.type+' '+r.size+' '+r.condition+' '+r.ticket+' '+r.date).toLowerCase()); }
 const szRe = v => v==='canal'||v==='kanal' ? /[ck]anal/i : v==='marla' ? /marl/i : new RegExp(v,'i');
 const cdRe = v => ({day:/day|din/i, week:/week|hafta|haft/i, month:/month|mah|maah/i, year:/year|saal|sal/i}[v] || new RegExp(v,'i'));
 function compute(){
@@ -342,10 +366,16 @@ function dateTile(iso){
   const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');
   return m ? '<b>'+(+m[3])+'</b><span>'+MON[+m[2]-1]+'</span><em>'+m[1]+'</em>' : '<span>'+esc(iso||'-')+'</span>';
 }
+// Hafta: Saturday se Thursday (Friday bhi usi hafte me ginta hai)
+function weekRange(){
+  const d=new Date(); d.setDate(d.getDate()-((d.getDay()+1)%7));
+  const iso=x=>x.getFullYear()+'-'+p2(x.getMonth()+1)+'-'+p2(x.getDate());
+  const s=iso(d); d.setDate(d.getDate()+6); return [s, iso(d)];
+}
 function renderStats(){
-  const t=todayISO(), ym=t.slice(0,7);
-  const td=rows.filter(r=>r.date===t).length, mo=rows.filter(r=>(r.date||'').slice(0,7)===ym).length;
-  $('stats').innerHTML='<div class="st"><b>'+rows.length+'</b><span>Total visits</span></div><div class="st"><b>'+td+'</b><span>Today</span></div><div class="st"><b>'+mo+'</b><span>This month</span></div>';
+  const t=todayISO(), ym=t.slice(0,7), [ws,we]=weekRange();
+  const td=rows.filter(r=>r.date===t).length, wk=rows.filter(r=>r.date>=ws && r.date<=we).length, mo=rows.filter(r=>(r.date||'').slice(0,7)===ym).length;
+  $('stats').innerHTML='<div class="st"><b>'+rows.length+'</b><span>Total</span></div><div class="st"><b>'+td+'</b><span>Today</span></div><div class="st" title="Sat - Thu"><b>'+wk+'</b><span>Weekly</span></div><div class="st"><b>'+mo+'</b><span>This month</span></div>';
 }
 const todayCity = () => (TC && TC.date===todayISO() && TC.city) ? TC.city : '';
 function renderCityBar(){ const c=todayCity(); $('cityNow').textContent = c || 'Select karein'; $('btnCity').classList.toggle('set', !!c); }
@@ -361,8 +391,8 @@ function render(){
     return '<div class="card'+(sel.has(k)?' sel':'')+'" data-k="'+esc(k)+'"><div class="ck">'+IC_CK+'</div><div class="dt">'+dateTile(r.date)+'</div><div class="bd">'+
     '<h3>'+esc(r.address||'-')+'</h3>'+
     '<p>'+esc(r.ownerName)+(r.ownerMob?' &middot; <a href="tel:'+esc(digits(r.ownerMob))+'">'+esc(r.ownerMob)+'</a>':'')+'</p>'+
-    '<div class="tags">'+(r.city?'<span class="tag k">'+esc(r.city)+'</span>':'')+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">#'+esc(r.ticket)+'</span>':'')+'</div>'+
-    (r.meetName?'<p style="margin-top:6px">Met: '+esc(r.meetName)+(r.meetMob?' ('+esc(r.meetMob)+')':'')+'</p>':'')+
+    '<div class="tags">'+(r.city?'<span class="tag k">'+esc(r.city)+'</span>':'')+(r.size?'<span class="tag '+(sl.includes('canal')?'c':'m')+'">'+esc(r.size)+'</span>':'')+(r.type?'<span class="tag">'+esc(r.type)+'</span>':'')+(r.condition?'<span class="tag p">Paint: '+esc(r.condition)+'</span>':'')+(r.ticket?'<span class="tag t">'+(/^ticket already/i.test(r.ticket)?'&#10003; ':'#')+esc(r.ticket)+'</span>':'')+'</div>'+
+    ((r.meetName||r.meetMob)?'<div class="pt">'+IC_PH+'<div><small>Painter / Met</small>'+(r.meetName?'<b>'+esc(r.meetName)+'</b>':'')+(r.meetMob?'<a href="tel:'+esc(digits(r.meetMob))+'">'+esc(r.meetMob)+'</a>':'')+'</div></div>':'')+
     '<div class="acts"><button class="ab" data-a="rv">'+IC_REV+'Revisit</button><button class="ab ed" data-a="ed">'+IC_ED+'Edit</button><button class="ab dl" data-a="dl">'+IC_DEL+'Delete</button></div></div></div>'; }).join('')
     : '<div class="empty">Koi record nahi mila</div>';
   $('more').style.display = view.length>shown ? 'block' : 'none';
@@ -410,7 +440,7 @@ function cacheRows(){
   siteIdx = null;
   const set = new Set(); rows.forEach(r => r.type && set.add(r.type.trim()));
   const types = [...set].sort();
-  $('typeList').innerHTML = types.map(t => '<option value="'+esc(t)+'">').join('');
+  fillTypeSel();
   const cur = $('fType').value;
   $('fType').innerHTML = '<option value="">All</option>'+types.map(t=>'<option>'+esc(t)+'</option>').join('');
   $('fType').value = types.includes(cur) ? cur : '';
@@ -481,6 +511,38 @@ function chipSet(g,v){ $(g).querySelectorAll('.chip').forEach(c => c.classList.t
 const parseSize = s => { const m=/^\s*([\d.]+)\s*(marla|canal)s?\s*$/i.exec(s||''); return m?[m[1],m[2]]:[s||'','']; };
 const parseCond = s => { const m=/^\s*([\d.]+)\s*(day|week|month|year)s?\s*$/i.exec(s||''); return m?[m[1],m[2]]:[s||'','']; };
 const isNum = v => /^[\d.]+$/.test(v);
+
+/* ---- Site Type dropdown (list se chunein ya "Other" se khud likhein) ---- */
+const DEFAULT_TYPES = ['Ready for paint','Under construction','Grey structure','Plaster stage','Putty stage','Primer stage','Finishing stage','Renovation'];
+function typeOptions(){
+  const seen=new Set(), out=[];
+  DEFAULT_TYPES.concat(rows.map(r=>(r.type||'').trim()).filter(Boolean).sort()).forEach(t => { const k=t.toLowerCase(); if(!seen.has(k)){ seen.add(k); out.push(t); } });
+  return out;
+}
+function setType(v){
+  v = String(v||'').trim();
+  const o = typeOptions().find(t => t.toLowerCase()===v.toLowerCase()), sel=$('typeSel'), inp=$('type');
+  inp.value = o || v;
+  if (!v) { sel.value=''; inp.style.display='none'; }
+  else if (o) { sel.value=o; inp.style.display='none'; }
+  else { sel.value='__other'; inp.style.display='block'; }
+}
+function fillTypeSel(){
+  const sel=$('typeSel'), wasOther = sel.value==='__other', cur=$('type').value;
+  sel.innerHTML = '<option value="">-- Select Site Type --</option>'+typeOptions().map(t=>'<option value="'+esc(t)+'">'+esc(t)+'</option>').join('')+'<option value="__other">+ Other (khud likhein)</option>';
+  if (wasOther) { sel.value='__other'; $('type').style.display='block'; } else setType(cur);
+}
+$('typeSel').onchange = () => {
+  const v=$('typeSel').value, inp=$('type');
+  if (v==='__other') { inp.value=''; inp.style.display='block'; inp.focus(); }
+  else { inp.value=v; inp.style.display='none'; }
+};
+
+/* ---- Ticket Already Imposed tab ---- */
+const TK_IMP = 'Ticket Already Imposed';
+function tkSync(){ $('tkImp').classList.toggle('on', $('ticket').value.trim().toLowerCase()===TK_IMP.toLowerCase()); }
+$('tkImp').onclick = () => { $('ticket').value = $('tkImp').classList.contains('on') ? '' : TK_IMP; tkSync(); };
+$('ticket').addEventListener('input', tkSync);
 
 function sites(){
   if (siteIdx) return siteIdx;
@@ -562,7 +624,7 @@ function setTodayCity(c){
 
 function fillFrom(s){
   $('ownerName').value=s.ownerName||''; $('ownerMob').value=s.ownerMob||''; $('address').value=s.address||'';
-  $('type').value=s.type||''; $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||'';
+  setType(s.type||''); $('meetName').value=s.meetName||''; $('meetMob').value=s.meetMob||''; $('ticket').value=s.ticket||''; tkSync();
   $('city').value = todayCity() || s.city || '';
   const [sn,su]=parseSize(s.size); $('sizeNum').value=sn; chipSet('sizeUnit',su);
   const [cn,cu]=parseCond(s.condition); $('condNum').value=cn; chipSet('condUnit',cu);
@@ -572,7 +634,7 @@ function fillFrom(s){
 }
 function clearForm(){
   ['ownerName','ownerMob','address','sizeNum','type','meetName','meetMob','condNum','ticket'].forEach(i=>$(i).value='');
-  $('city').value = todayCity();
+  $('city').value = todayCity(); setType(''); tkSync();
   chipSet('sizeUnit',''); chipSet('condUnit',''); $('date').value=todayISO(); $('banner').style.display='none';
 }
 function openForm(rec, mode){
@@ -693,7 +755,7 @@ function doLogout(){
   wipeData(null); LS.removeItem('user');
   USER=null; rows=[]; pending=[]; TC=null; selMode=false; sel.clear(); document.body.classList.remove('sm');
   closeForm(); $('set').classList.remove('on'); $('pend').style.display='none';
-  $('fCity').innerHTML='<option value="">All</option>'; $('fType').innerHTML='<option value="">All</option>'; $('typeList').innerHTML='';
+  $('fCity').innerHTML='<option value="">All</option>'; $('fType').innerHTML='<option value="">All</option>'; fillTypeSel();
   render(); $('lgEmail').value=''; LG(1);
 }
 $('accOut').onclick = () => {
@@ -923,7 +985,7 @@ function goBack(){
 
 /* ================= INIT ================= */
 (function(){
-  $('date').value = todayISO();
+  $('date').value = todayISO(); fillTypeSel();
   if (USER && USER.token) { loadLocal(); cacheRows(); savePending(); render(); load(); }
   else { render(); if (USER) $('lgEmail').value = USER.email; LG(1); }
   let lastVis = Date.now();
